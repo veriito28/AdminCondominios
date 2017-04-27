@@ -1,0 +1,51 @@
+.menu .item{
+	margin: 0 0 0em;
+}
+.html.segment {
+    padding: 3.5em 1em 1em;
+}
+.ui.column.card{
+	padding: 0!important;
+}
+.ui.ribbon.label {
+    left: calc(-1rem); 
+}
+.cell-action{
+	position: relative;
+}
+.options{
+	position: absolute;
+	display: none;
+	top: 20%;
+	right: 3px;
+}
+tr:hover .options{
+	display: block;
+}
+.ui.table-pagos td {
+    padding: 0 0em;
+}
+.ui.table-pagos td .input input {
+	width: 50px!important;
+	border: 0px;
+	padding: 5px 4px;
+}
+.ui.table-pagos td:hover .input input {
+    border: 1px solid rgba(34,36,38,.15);
+}
+.ui.table-pagos .ui.input input:focus,.ui.table-pagos .ui.input.focus input {
+    border: 1px solid rgba(34,36,38,.15);
+}
+.content-pull{
+	position: relative;
+}
+.pull-left{
+	position: absolute;
+	top: 0;
+}
+.side-bar i.icons .inverted.corner.icon {
+    text-shadow: -1px -1px 0 #21ba45, 1px -1px 0 #21ba45, -1px 1px 0 #21ba45, 1px 1px 0 #21ba45;
+}
+.labeled input{
+	width: 50px!important;
+}
