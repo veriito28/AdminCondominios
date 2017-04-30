@@ -82,7 +82,7 @@
 		<div class="ui grid  centered ">
 			@if (!Auth::guest())
 				@if ($seleccionado)
-					<div class="three wide column">
+					<div class="two wide column">
 						<div class="ui vertical side-bar inverted menu">
 							<p class="item active green">
 								<i class="icons icon">
@@ -91,13 +91,13 @@
 								</i>
 								Ingresos
 							</p>
-							<a href="{{route('pagos')}}" class="item  {{Request::is('usuario/condominio/pagos*')?'active orange':'null'}}">
+							<a href="{{route('pagos',['tipo'=>'mensualidad'])}}" class="item  {{Request::is('usuario/condominio/ingresos/pagos/*')?'active orange':''}}">
 								Pagos
 							</a>
 							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
 								Otros Pagos
 							</a>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('ingresosExtraudinarios')}}" class="item {{Request::is('usuario/condominio/ingresos/extraudinarios*')?'active orange':''}}">
 								Ingresos Ext.
 							</a>
 							<p class="item active green">
@@ -107,10 +107,10 @@
 								</i>
 								Gastos
 							</p>
-							<a href="{{route('gastosOrdinarios')}}" class="item {{Request::is('usuario/condominio/gastos/ordinarios')?'active orange':''}}">
+							<a href="{{route('gastosOrdinarios')}}" class="item {{Request::is('usuario/condominio/gastos/ordinarios*')?'active orange':''}}">
 								Ordinarios
 							</a>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('gastosExtraudinarios')}}" class="item {{Request::is('usuario/condominio/gastos/extraudinarios*')?'active orange':''}}">
 								Extraudinarios
 							</a>
 							<p class="item active green">
@@ -139,12 +139,20 @@
 						</div>
 					</div>
 				@endif
-				<div class="thirteen wide stretched column">
+				<div class="fourteen wide stretched column">
 					@if(session()->has('message'))
 						<div class="ui  icon floating {{session()->get('type') == 'success'?'green':'red'}} message">
-							<i class="{{session()->get('type') == 'info'?'green':'warning '}} circle icon"></i>
+							<i class="{{session()->get('type') == 'success'?'info':'warning '}} circle icon"></i>
 								<div class="header">
 									{{session()->get('message')}}
+								</div>
+						</div>
+					@endif
+					@if($errors->count() > 0)
+						<div class="ui  icon floating red message">
+							<i class="warning circle icon"></i>
+								<div class="header">
+									{{$errors->first()}}
 								</div>
 						</div>
 					@endif

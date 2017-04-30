@@ -45,10 +45,23 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 		Route::name('editarCasa')->get('casas/{id}/editar','CasaCtrl@editar');
 		Route::name('actualizarCasa')->put('casas/{id}','CasaCtrl@actualizar');
 		
-		Route::name('pagos')->get('pagos','IngresosCtrl@pagos');
-		Route::name('guardarPagos')->post('pagos','IngresosCtrl@guardarPagos');
+		Route::name('pagos')->get('ingresos/pagos/{tipo?}/{anio?}','IngresosCtrl@pagos');
+		Route::name('guardarPagos')->post('ingresos/pagos/{tipo}/{anio?}','IngresosCtrl@guardarPagos');
 
-		Route::name('gastosOrdinarios')->get('gastos/ordinarios','GastoCtrl@ordinarios');
-		Route::name('guardarGastosOrdinarios')->post('gastos/ordinarios','GastoCtrl@guardarOrdinarios');
+		Route::name('ingresosExtraudinarios')->get('ingresos/extraudinarios/{anio?}','IngresosCtrl@ingresosExtraudinarios');
+		Route::name('guardarIngresoExtraudinario')->post('ingresos/extraudinarios/{anio?}','IngresosCtrl@guardarIngresoExtraudinario');
+		Route::name('eliminarIngresoExtraudinario')->delete('ingresos/extraudinarios/{anio}/{id}','IngresosCtrl@eliminarIngresoExtraudinario');
+		Route::name('editarIngresoExtraudinario')->get('ingresos/extraudinarios/{anio}/{id}/editar','IngresosCtrl@editarIngresoExtraudinario');
+		Route::name('actualizarIngresoExtraudinario')->put('ingresos/extraudinarios/{anio}/{id}','IngresosCtrl@actualizarIngresoExtraudinario');
+
+		Route::name('gastosOrdinarios')->get('gastos/ordinarios/{anio?}','GastoCtrl@ordinarios');
+		Route::name('guardarGastosOrdinarios')->post('gastos/ordinarios/{anio?}','GastoCtrl@guardarOrdinarios');
+
+		Route::name('gastosExtraudinarios')->get('gastos/extraudinarios/{anio?}','GastoCtrl@gastosExtraudinarios');
+		Route::name('guardarGastoExtraudinario')->post('gastos/extraudinarios/{anio?}','GastoCtrl@guardarGastoExtraudinario');
+		Route::name('eliminarGastoExtraudinario')->delete('gastos/extraudinarios/{anio}/{id}','GastoCtrl@eliminarGastoExtraudinario');
+		Route::name('editarGastoExtraudinario')->get('gastos/extraudinarios/{anio}/{id}/editar','GastoCtrl@editarGastoExtraudinario');
+		Route::name('actualizarGastoExtraudinario')->put('gastos/extraudinarios/{anio}/{id}','GastoCtrl@actualizarGastoExtraudinario');
+		
 	});
 });

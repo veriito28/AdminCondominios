@@ -6,7 +6,7 @@
 			<div class="column">
 				<div class="ui segments">
 					<div class="ui green segment content-pull"> 
-						<div class="ui center aligned header">
+						<div class="ui right aligned header">
 							<h2>
 								<img src="{{ asset('img/logo.png') }}" alt="" width="150px">
 								<br>
@@ -15,9 +15,9 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							<i class="circular building icon"></i>
-							Gastos Ordinarios Mensuales 
+							Gastos Ordinarios Mensuales "{{$condominio->nombre}}" - {{$anio}}
 						</h2>
-						<form action="{{ route('guardarGastosOrdinarios') }}" method="POST">
+						<form action="{{ route('guardarGastosOrdinarios',['anio'=> $anio]) }}" method="POST">
 							{{ csrf_field() }}
 							<input type="hidden" value="{{$condominio->id}}" name="condominio_id">
 							<table class="ui green compact very line table table-pagos">
@@ -26,19 +26,24 @@
 										<th colspan="13">
 											<h3>Pagos Mensuales</h3>
 											<div class="ui form">
-												<div class="fields inline">
-													<div class="field">
-														<div class="ui labeled input">
-														  	<div class="ui label">
-														  	  	Año
-														  	</div>
-													    	<select name="year" class="ui search dropdown">
-													    		@for ($i = 2012; $i <= \Carbon\Carbon::now()->year ; $i++)
-														    		<option value="{{$i}}" {{$i == $year?'selected':''}}>{{$i}}</option>
-													    		@endfor
-												    		</select>
+												<div class="fields inline">													
+													<div class="ui floating labeled icon dropdown button">
+														<i class="calendar  icon"></i>
+														<span class="text">{{$anio}}</span>
+														<div class="menu">
+															{{-- <div class="header">
+																<i class="tags icon"></i>
+																Años
+															</div> --}}
+															@for ($i = 2012; $i <= \Carbon\Carbon::now()->year ; $i++)
+																@if ($i != $anio)
+																	<a href="{{  route('gastosOrdinarios',['anio'=> $i]) }}" class="item">
+																		{{$i}}
+																	</a>
+																@endif
+															@endfor
 														</div>
-												   	</div>
+													</div>
 													<button  type="submit" class="ui green button">
 														GUARDAR
 													</button>
@@ -65,12 +70,13 @@
 										</td>
 										@foreach ($meses as $mes => $index)
 											<td>
-												<div class="ui input">
-													<input 	type="text" 
+												<div class="ui input {{$errors->has($mes.'.'.$concepto->id)?'error':''}}">
+													<input 	type="text"
+															class="input-table" 
 															autocomplete="off" 
 															name="{{$mes}}[{{$concepto->id}}]" 
 															placeholder="0.00" 
-															value="{{$concepto->gastos->first(function ($value, $key) use ($index, $condominio) {return \Carbon\Carbon::parse($value->fecha)->month == $index && $condominio->id == $value->condominio_id;})['cantidad']}}">
+															value="{{old($mes.'.'.$concepto->id)?old($mes.'.'.$concepto->id):(($val = doubleval($concepto->gastos->first(function ($value, $key) use ($index, $condominio,$anio) {return \Carbon\Carbon::parse($value->fecha)->month == $index && \Carbon\Carbon::parse($value->fecha)->year == $anio && $condominio->id == $value->condominio_id;})['cantidad']))!=0?$val:'')}}">
 												</div>										
 											</td>
 										@endforeach
@@ -108,38 +114,38 @@
     					"octubre", 
     					"noviembre", 
     					"diciembre"];
-		var keys = [];
 
-		$(document).keydown(function (e) {
-		    keys[e.which] = true;
-		});
-
-		$(document).keyup(function (e) {
-		    delete keys[e.which];
-		});
 		
-		$( "input[type=text]" ).keydown(function(event ) {
+		$(".input-table").focus(function() {
+			var vm = this;
+			setTimeout(function() {
+				$(vm).select();
+			},0);			
+		});
+
+		$(".input-table").keydown(function(event ) {
 			var index = $(this).prop('name').match(/\[(.*?)\]/)[1];
 			var nombre = $(this).prop('name').match(/([a-z])\w+/)[0];
 			var x = meses.indexOf(nombre);
 			var maxIndex = {{$conceptos->max('id')}};
-
-			switch(event.keyCode){
-				case 38: //arriba
-					index = index <= 1 ? maxIndex : index - 1;
-					break;
-				case 37://izquierda
-					x = x <= 0 ? 11 : x - 1;
-					break;
-				case 40://abajo
-					index ++;
-					index = index > maxIndex ? 1 : index;
-					break;
-				case 39://deracha
-					x = x >= 11 ? 0 : x + 1;
-					break;
+			if (event.keyCode >=37 && event.keyCode <=40) {
+				switch(event.keyCode){
+					case 38: //arriba
+						index = index <= 1 ? maxIndex : index - 1;			
+						break;
+					case 37://izquierda
+						x = x <= 0 ? 11 : x - 1;
+						break;
+					case 40://abajo
+						index ++;
+						index = index > maxIndex ? 1 : index;
+						break;
+					case 39://deracha
+						x = x >= 11 ? 0 : x + 1;
+						break;
+				}
+				$('input[name="'+meses[x]+'['+index+']"]').focus();
 			}
-			$('input[name="'+meses[x]+'['+index+']"]').focus();			
 		});
 	});
 </script>

@@ -49,3 +49,12 @@ tr:hover .options{
 .labeled input{
 	width: 50px!important;
 }
+.ui.vertical.menu {
+    width: 11rem;
+}
+.form-inline{
+	display: inline-block;
+}
+.hide{
+	display: none!important;
+}
