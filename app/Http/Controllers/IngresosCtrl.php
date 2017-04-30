@@ -11,7 +11,6 @@ use App\Condominio;
 use Carbon\Carbon;
 class IngresosCtrl extends Controller
 {
-    protected $meses = ["enero" => 1, "febrero" => 2, "marzo" => 3, "abril"  => 4, "mayo"  => 5, "junio" => 6, "julio" => 7, "agosto" => 8, "septiembre" => 9, "octubre" => 10, "noviembre" => 11, "diciembre" => 12];
 	function __construct(Pago $pago,Condominio $condominio)
 	{
 		$this->pago = $pago;
@@ -24,14 +23,14 @@ class IngresosCtrl extends Controller
     	}
     	$condominio = session()->get('condominio');
     	$condominio = $this->condominio->id($condominio->id)->first();
-    	$meses = $this->meses;
+    	$meses = config('helper.meses');
         return view('ingresos.pagos',compact('condominio','anio','meses','tipo'));
     }
     public function guardarPagos($tipo = 'mensualidad' ,$anio = null,PagoStoreRequest $request)
     {
         // dd($request->all());
     	$index = 1;
-        $meses = $this->meses;
+        $meses = config('helper.meses');
     	foreach ($request->except(['_token']) as $key => $valores) {
     	$fecha = Carbon::createFromDate($anio,$meses[$key],1);
     		foreach ($valores as $casa_id => $cantidad) {

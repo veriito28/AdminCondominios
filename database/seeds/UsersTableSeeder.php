@@ -15,6 +15,15 @@ class UsersTableSeeder extends Seeder
                             'username'=>'vvalenzuela',
                             'password'=>'asd123'
                         ]);
+        Usuario::create([   'nombre'=>'Ramon Perez',
+                            'username'=>'ramon',
+                            'password'=>'rperez'
+                        ]);
+        Usuario::create([   'nombre'=>'Administrador Smart',
+                            'username'=>'smart',
+                            'password'=>'smart'
+                        ]);
+
         Usuario::create([	'nombre'=>'Rafael Gonzalez',
         					'username'=>'rgonzalez',
         					'password'=>'asd123'

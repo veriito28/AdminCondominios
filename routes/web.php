@@ -62,6 +62,18 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 		Route::name('eliminarGastoExtraudinario')->delete('gastos/extraudinarios/{anio}/{id}','GastoCtrl@eliminarGastoExtraudinario');
 		Route::name('editarGastoExtraudinario')->get('gastos/extraudinarios/{anio}/{id}/editar','GastoCtrl@editarGastoExtraudinario');
 		Route::name('actualizarGastoExtraudinario')->put('gastos/extraudinarios/{anio}/{id}','GastoCtrl@actualizarGastoExtraudinario');
+	
+		Route::name('adeudosMensuales')->get('adeudos/mensualidades/{anio?}','AdeudoCtrl@mensualidades');
+		Route::name('guardarAdeudosMensuales')->post('adeudos/mensualidades/{anio?}','AdeudoCtrl@guadarMensualidades');
+	
+		Route::name('otrosAdeudos')->get('adeudos/otros/{anio?}','AdeudoCtrl@otrosAdeudos');
+		Route::name('guardarOtroAdeudo')->post('adeudos/otros/{anio?}','AdeudoCtrl@guardarOtroAdeudo');
+		Route::name('eliminarOtroAdeudo')->delete('adeudos/otros/{anio}/{id}','AdeudoCtrl@eliminarOtroAdeudo');
+		Route::name('editarOtroAdeudo')->get('adeudos/otros/{anio}/{id}/editar','AdeudoCtrl@editarOtroAdeudo');
+		Route::name('actualizarOtroAdeudo')->put('adeudos/otros/{anio}/{id}','AdeudoCtrl@actualizarOtroAdeudo');
+	
 		
+
+
 	});
 });

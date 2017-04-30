@@ -9,7 +9,7 @@ use App\Concepto;
 use DB;
 class Gasto extends Model
 {
-     use IdTrait;
+    use IdTrait;
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 

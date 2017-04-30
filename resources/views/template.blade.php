@@ -120,10 +120,10 @@
 								</i>
 								Adeudos
 							</p>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('adeudosMensuales')}}" class="item {{Request::is('usuario/condominio/adeudos/mensualidades*')?'active orange':''}}">							
 								Mensualidades
 							</a>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('otrosAdeudos')}}" class="item {{Request::is('usuario/condominio/adeudos/otros*')?'active orange':''}}">							
 								Otros
 							</a>
 
