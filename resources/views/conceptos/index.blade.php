@@ -6,9 +6,16 @@
 			<div class="column">
 				<div class="ui segments">
 					<div class="ui green segment"> 
-						<h2 class="ui center aligned icon header">
-							 <i class="folder open icon"></i>
-							Conceptos Generales
+						<div class="ui right aligned header">
+							<h2>
+								<img src="{{ asset('img/logo.png') }}" alt="" width="150px">
+								<br>
+								Smart Condominios
+							</h2>
+						</div>
+						<h2 class="ui left header pull-left">
+							 <i class="circular folder open icon"></i>
+								Conceptos Generales
 						</h2>
 						<table class="ui green celled table">
 							<thead >

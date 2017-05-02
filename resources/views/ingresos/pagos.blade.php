@@ -16,7 +16,7 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							<i class="circular building icon"></i>
-							Pagos Mensuales "{{$condominio->nombre}}"- {{$anio}}
+							Pagos Mensuales <span class="ui header green">"{{$condominio->nombre}}"</span>- {{$anio}}
 						</h2>
 						<form action="{{ route('guardarPagos',['tipo'=>$tipo,'anio'=> $anio]) }}" method="POST">
 							{{ csrf_field() }}
@@ -31,10 +31,6 @@
 														<i class="calendar  icon"></i>
 														<span class="text">{{$anio}}</span>
 														<div class="menu">
-															{{-- <div class="header">
-																<i class="tags icon"></i>
-																Años
-															</div> --}}
 															@for ($i = 2012; $i <= \Carbon\Carbon::now()->year ; $i++)
 													    		@if ($i != $anio)
 																	<a href="{{  route('pagos',['tipo'=>$tipo,'anio'=> $i]) }}" class="item">
@@ -44,7 +40,6 @@
 												    		@endfor
 														</div>
 													</div>
-	
 													<button  type="submit" class="ui green button">
 														GUARDAR
 													</button>
@@ -86,6 +81,14 @@
 											</th>
 										@endforeach
 									</tr>
+									<tr class="tr-adeudo">
+										<th>Mensualidad</th>
+										@foreach ($meses as $mes => $index)
+											<th>
+												$ {{doubleval($adeudosMensuales->first(function ($value, $key) use ($anio,$index) {return $value->fecha->month == $index && $value->fecha->year == $anio && $value->tipo == 'M';})['cantidad'])}}
+											</th>
+										@endforeach
+									</tr>
 								</thead>
 								<tbody>
 									@foreach ($condominio->casas as $casa)
@@ -101,7 +104,7 @@
 															autocomplete="off" 
 															name="{{$mes}}[{{$casa->id}}]" 
 															placeholder="0.00" 
-															value="{{old($mes.'.'.$casa->id)? old($mes.'.'.$casa->id): (($val = doubleval($casa->pagos->first(function ($value, $key) use ($anio,$index,$tipo) {return \Carbon\Carbon::parse($value->fecha)->month == $index && \Carbon\Carbon::parse($value->fecha)->year == $anio && $value->concepto == $tipo;})['cantidad']))!=0?$val:'')}}">
+															value="{{old($mes.'.'.$casa->id)? old($mes.'.'.$casa->id): (($val = doubleval($casa->pagos->first(function ($value, $key) use ($anio,$index,$tipo) {return $value->fecha->month == $index && $value->fecha->year == $anio && $value->concepto == $tipo;})['cantidad']))!=0?$val:'')}}">
 												</div>										
 											</td>
 										@endforeach

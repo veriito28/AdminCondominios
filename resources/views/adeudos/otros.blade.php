@@ -15,7 +15,7 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							<i class="circular building icon"></i>
-							Otros Adeudos "{{$condominio->nombre}}" - {{$anio}}
+							Otros Adeudos <span class="ui header green">"{{$condominio->nombre}}"</span> - {{$anio}}
 						</h2>
 						<table class="ui green celled table">
 							<thead >
@@ -81,10 +81,10 @@
 										{{$otroAdeudo->concepto}}
 									</td>
 									<td >
-										{{$otroAdeudo->cantidad}}
+										$ {{$otroAdeudo->cantidad}}
 									</td>
 									<td class="cell-action">
-										{{$otroAdeudo->fecha}}
+										{{$otroAdeudo->fecha->format('j \\d\\e F Y ')}}
 										<div class="options">
 											<div class="ui small basic icon buttons">
 												<a href="{{ route('editarOtroAdeudo',['anio'=>$anio,'id'=>$otroAdeudo->id]) }}" class="ui button basic green"><i class="edit icon"></i></a>

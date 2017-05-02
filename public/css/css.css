@@ -38,6 +38,7 @@ tr:hover .options{
 }
 .content-pull{
 	position: relative;
+	min-height: 82vh!important;
 }
 .pull-left{
 	position: absolute;
@@ -49,12 +50,51 @@ tr:hover .options{
 .labeled input{
 	width: 50px!important;
 }
-.ui.vertical.menu {
-    width: 11rem;
-}
 .form-inline{
 	display: inline-block;
 }
 .hide{
 	display: none!important;
+}
+body{
+	background-image: url('../img/condominio2.png');
+	background-position: center bottom ;
+	background-size:  100vw auto;
+    background-attachment: fixed;
+	background-repeat: no-repeat;
+}
+.ui.grid.container,.container {
+    width: 96%!important;
+}
+.ui.vertical.menu {
+     width: 100%; 
+}
+.ui.attached.menu {
+	margin-bottom: 1rem;
+    /*margin: 0 -1px;*/
+}
+.column-menu{
+	padding-left: 0!important;
+	padding-right: 0!important;
+}
+.ui.large.modal {
+	width: 85%!important;
+}
+.pull-left.ui.header>.icon {
+     display: inline-block; 
+}
+.item-hover .btn-title{
+	display: none;
+}
+.item-hover:hover .btn-title{
+	display: inline-block;
+}
+.ui.selection.dropdown.date{
+	min-width: 80px!important;
+}
+.tr-adeudo{
+	font-size: 9px;
+}
+.tr-adeudo th{
+	padding: 0px 10px!important;
 }

@@ -16,7 +16,7 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							<i class="circular building icon"></i>
-							Adeudos Mensuales "{{$condominio->nombre}}"- {{$anio}}
+							Adeudos Mensuales <span class="ui header green">"{{$condominio->nombre}}"</span>- {{$anio}}
 						</h2>
 						<form action="{{ route('guardarAdeudosMensuales',['anio'=> $anio]) }}" method="POST">
 							{{ csrf_field() }}
@@ -29,7 +29,8 @@
 												<div class="fields inline">
 													<div class="ui floating labeled icon dropdown button">
 														<i class="calendar  icon"></i>
-														<span class="text">{{$anio}}</span>
+														<span class="text">{{$anio}}
+														</span>
 														<div class="menu">
 															{{-- <div class="header">
 																<i class="tags icon"></i>

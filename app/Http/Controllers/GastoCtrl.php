@@ -56,42 +56,42 @@ class GastoCtrl extends Controller
     	}
     	return redirect()->back()->with(['message'=>'Sin pagos para actualizar.','type'=>'success']);
     }
-	public function gastosExtraudinarios($anio = null)
+	public function gastosExtraordinarios($anio = null)
     {
         if (!$anio) {
             $anio = Carbon::now()->year;
         }
         $condominio = session()->get('condominio');
-        $gastosExtraudinarios = $this->gasto->extraudinarios()->condominioId($condominio->id)->anio($anio)->get();
-        return view("gastos.extraudinarios",compact('condominio','anio','gastosExtraudinarios'));
+        $gastosExtraordinarios = $this->gasto->extraordinarios()->condominioId($condominio->id)->anio($anio)->get();
+        return view("gastos.extraordinarios",compact('condominio','anio','gastosExtraordinarios'));
     }
-    public function guardarGastoExtraudinario($anio = null,GastoExtraStoreRequest $request)
+    public function guardarGastoExtraordinario($anio = null,GastoExtraStoreRequest $request)
     {
         $datos = $request->except('_token');
         $datos['tipo'] = 'E';
         if ($this->gasto->create($datos)) {
-            return redirect()->back()->with(['message'=>'Gasto Extraudinario guardados correctamente.','type'=>'success']);
+            return redirect()->back()->with(['message'=>'Gasto Extraordinario guardados correctamente.','type'=>'success']);
         }
-        return redirect()->back()->with(['message'=>'Gasto Extraudinario no registrado.','type'=>'error']);
+        return redirect()->back()->with(['message'=>'Gasto Extraordinario no registrado.','type'=>'error']);
     }
-    public function eliminarGastoExtraudinario($anio,$id)
+    public function eliminarGastoExtraordinario($anio,$id)
     {
-        $gastoExtraudinario = $this->gasto->find($id);
-        if ($gastoExtraudinario->delete()) {
-            return redirect()->back()->with(['message'=>'Ingreso Extraudinario eliminado.','type'=>'success']);
+        $gastoExtraordinario = $this->gasto->find($id);
+        if ($gastoExtraordinario->delete()) {
+            return redirect()->back()->with(['message'=>'Ingreso Extraordinario eliminado.','type'=>'success']);
         }
-        return redirect()->back()->with(['message'=>'Ingreso Extraudinario no eliminado.','type'=>'error']);
+        return redirect()->back()->with(['message'=>'Ingreso Extraordinario no eliminado.','type'=>'error']);
     }
-    public function editarGastoExtraudinario($anio,$id)
+    public function editarGastoExtraordinario($anio,$id)
     {
-        $gastoExtraudinario = $this->gasto->find($id);
-        return view("gastos.extraudinarios.edit",compact('condominio','anio','gastoExtraudinario'));
+        $gastoExtraordinario = $this->gasto->find($id);
+        return view("gastos.extraordinarios.edit",compact('condominio','anio','gastoExtraordinario'));
     }
-    public function actualizarGastoExtraudinario($anio,$id,GastoExtraUpdateRequest $request)
+    public function actualizarGastoExtraordinario($anio,$id,GastoExtraUpdateRequest $request)
     {
-        $gastoExtraudinario = $this->gasto->find($id);
-        $gastoExtraudinario->fill($request->only(['fecha','cantidad','concepto']));
-        $gastoExtraudinario->save();
-        return redirect()->route('gastosExtraudinarios',compact('anio'))->with(['message'=>'Ingreso Extraudinario Actualizado.','type'=>'success']);
+        $gastoExtraordinario = $this->gasto->find($id);
+        $gastoExtraordinario->fill($request->only(['fecha','cantidad','concepto']));
+        $gastoExtraordinario->save();
+        return redirect()->route('gastosExtraordinarios',compact('anio'))->with(['message'=>'Ingreso Extraordinario Actualizado.','type'=>'success']);
     }   
 }

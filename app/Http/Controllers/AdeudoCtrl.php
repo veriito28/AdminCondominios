@@ -42,13 +42,13 @@ class AdeudoCtrl extends Controller
     		foreach ($valores as $concepto => $cantidad) {
     			if ($cantidad) {
 		    		$this->adeudo->updateOrCreate([
-									'tipo' => 'M',
-									'condominio_id' => $condominio->id, 
-									'fecha' => $fecha->toDateString(), 
-									'concepto' => $concepto
-								],
+                                    'tipo'          => 'M',
+                                      'condominio_id' => $condominio->id, 
+                                    'fecha'         => $fecha->toDateString(), 
+                                    'concepto'      => $concepto
+                                ],
     							[
-    								'cantidad' => $cantidad
+                                    'cantidad' => $cantidad
     							]);
 		    		$index += 1;
     			}

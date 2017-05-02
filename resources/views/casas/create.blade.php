@@ -2,7 +2,7 @@
 	<i class="close icon"></i>
 	<div class="header">
 		<i class="home outline icon"></i>
-		Agregar una Casa
+		Agregar una Casa a <span class="ui header green">"{{$condominio->nombre}}"</span>
 	</div>
 	<div class="content">
 		{{ csrf_field() }}

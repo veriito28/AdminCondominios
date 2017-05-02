@@ -15,7 +15,7 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							<i class="circular building icon"></i>
-							Gastos Ordinarios Mensuales "{{$condominio->nombre}}" - {{$anio}}
+							Gastos Ordinarios Mensuales <span class="ui header green">"{{$condominio->nombre}}"</span> - {{$anio}}
 						</h2>
 						<form action="{{ route('guardarGastosOrdinarios',['anio'=> $anio]) }}" method="POST">
 							{{ csrf_field() }}
@@ -76,7 +76,7 @@
 															autocomplete="off" 
 															name="{{$mes}}[{{$concepto->id}}]" 
 															placeholder="0.00" 
-															value="{{old($mes.'.'.$concepto->id)?old($mes.'.'.$concepto->id):(($val = doubleval($concepto->gastos->first(function ($value, $key) use ($index, $condominio,$anio) {return \Carbon\Carbon::parse($value->fecha)->month == $index && \Carbon\Carbon::parse($value->fecha)->year == $anio && $condominio->id == $value->condominio_id;})['cantidad']))!=0?$val:'')}}">
+															value="{{old($mes.'.'.$concepto->id)?old($mes.'.'.$concepto->id):(($val = doubleval($concepto->gastos->first(function ($value, $key) use ($index, $condominio,$anio) {return $value->fecha->month == $index && $value->fecha->year == $anio && $condominio->id == $value->condominio_id;})['cantidad']))!=0?$val:'')}}">
 												</div>										
 											</td>
 										@endforeach

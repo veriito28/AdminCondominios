@@ -37,7 +37,7 @@
 						<i class="building outline icon"></i>
 						<i class="inverted corner building icon"></i>
 					</i>
-					Mis Condominios
+						Mis Condominios
 					<i class="dropdown icon"></i>
 					<div class="menu">
 						@foreach (Auth::user()->condominios as $condominio)
@@ -49,7 +49,7 @@
 							@endif
 						@endforeach
 						<a class="item nuevoCondominio">
-							<i class=" add icon"></i>
+							<i class=" add icon "></i>
 							Nuevo Condominio
 						</a>
 					</div>
@@ -62,42 +62,52 @@
 			@endif
 			<div class="menu right">
 				@if (!Auth::guest())
-					<a class="item">
-						<i class="privacy  icon"></i>
-						Cambiar Contraseña
+					<a href="{{ route('mostrarConceptos') }}" class="item item-hover">
+						<i class="book icon"></i>
+						<span class="btn-title">
+							Conceptos
+						</span>
 					</a>
-					<a href="{{ route('logout') }}" class="item">
+					<a  class="item item-hover">
+						<i class="privacy  icon"></i>
+						<span class="btn-title">
+							Cambiar Contraseña
+						</span>
+					</a>
+					<a href="{{ route('logout') }}" class="item item-hover">
 						<i class="reply icon"></i>
-						Cerrar Sesíon
+						<span class="btn-title">
+							Cerrar Sesíon
+						</span>
 					</a>
 					<p class="item">
-						<i class="user  icon"></i>
+						<i class="user icon"></i>
 						{{Auth::user()->nombre}}
 					</p>
 				@endif
 			</div>
 		</div>
 	</div>
-	<div class="ui attached segment ">
-		<div class="ui grid  centered ">
+	<div class="ui ">
+		<div class="ui grid container centered">
 			@if (!Auth::guest())
 				@if ($seleccionado)
-					<div class="two wide column">
-						<div class="ui vertical side-bar inverted menu">
+					<div class="two wide column column-menu">
+						<div class="ui vertical side-bar inverted menu left floated">
 							<p class="item active green">
 								<i class="icons icon">
 									<i class="dollar icon"></i>
 									<i class="corner inverted reply icon"></i>
 								</i>
-								Ingresos
+								INGRESOS
 							</p>
 							<a href="{{route('pagos',['tipo'=>'mensualidad'])}}" class="item  {{Request::is('usuario/condominio/ingresos/pagos/*')?'active orange':''}}">
 								Pagos
 							</a>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('otrosPagos')}}" class="item {{Request::is('usuario/condominio/ingresos/otros*')?'active orange':''}}">							
 								Otros Pagos
 							</a>
-							<a href="{{route('ingresosExtraudinarios')}}" class="item {{Request::is('usuario/condominio/ingresos/extraudinarios*')?'active orange':''}}">
+							<a href="{{route('ingresosExtraordinarios')}}" class="item {{Request::is('usuario/condominio/ingresos/extraordinarios*')?'active orange':''}}">
 								Ingresos Ext.
 							</a>
 							<p class="item active green">
@@ -105,20 +115,20 @@
 									<i class=" dollar icon"></i>
 									<i class="corner inverted share icon"></i>
 								</i>
-								Gastos
+								GASTOS
 							</p>
 							<a href="{{route('gastosOrdinarios')}}" class="item {{Request::is('usuario/condominio/gastos/ordinarios*')?'active orange':''}}">
 								Ordinarios
 							</a>
-							<a href="{{route('gastosExtraudinarios')}}" class="item {{Request::is('usuario/condominio/gastos/extraudinarios*')?'active orange':''}}">
-								Extraudinarios
+							<a href="{{route('gastosExtraordinarios')}}" class="item {{Request::is('usuario/condominio/gastos/extraordinarios*')?'active orange':''}}">
+								Extraordinarios
 							</a>
 							<p class="item active green">
 								<i class="icons icon ">
 									<i class=" dollar icon"></i>
 									<i class="corner alarm  inverted  icon"></i>
 								</i>
-								Adeudos
+								ADEUDOS
 							</p>
 							<a href="{{route('adeudosMensuales')}}" class="item {{Request::is('usuario/condominio/adeudos/mensualidades*')?'active orange':''}}">							
 								Mensualidades
@@ -128,9 +138,10 @@
 							</a>
 
 							<p class="item active green">
-								<i class="file pdf outline icon"></i>Reportes
+								<i class="file pdf outline icon"></i>
+								REPORTES
 							</p>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('reporteGeneral')}}" class="item {{Request::is('usuario/condominio/reportes/general*')?'active orange':''}}">							
 								General
 							</a>
 							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
@@ -139,7 +150,7 @@
 						</div>
 					</div>
 				@endif
-				<div class="fourteen wide stretched column">
+				<div class="fourteen wide column">
 					@if(session()->has('message'))
 						<div class="ui  icon floating {{session()->get('type') == 'success'?'green':'red'}} message">
 							<i class="{{session()->get('type') == 'success'?'info':'warning '}} circle icon"></i>

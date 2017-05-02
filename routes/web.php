@@ -36,6 +36,7 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 
 	Route::name('guardarCondominio')->post('condominios','CondominioCtrl@guardar');
 	Route::group(['prefix' => 'condominio'], function () {
+
 		Route::name('mostrarCondominio')->get('/{id}/show','CondominioCtrl@mostrar');
 		Route::name('editarCondominio')->get('/{id}/edit','CondominioCtrl@editar');
 		Route::name('eliminarCondominio')->delete('/delete','CondominioCtrl@eliminar');
@@ -48,20 +49,25 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 		Route::name('pagos')->get('ingresos/pagos/{tipo?}/{anio?}','IngresosCtrl@pagos');
 		Route::name('guardarPagos')->post('ingresos/pagos/{tipo}/{anio?}','IngresosCtrl@guardarPagos');
 
-		Route::name('ingresosExtraudinarios')->get('ingresos/extraudinarios/{anio?}','IngresosCtrl@ingresosExtraudinarios');
-		Route::name('guardarIngresoExtraudinario')->post('ingresos/extraudinarios/{anio?}','IngresosCtrl@guardarIngresoExtraudinario');
-		Route::name('eliminarIngresoExtraudinario')->delete('ingresos/extraudinarios/{anio}/{id}','IngresosCtrl@eliminarIngresoExtraudinario');
-		Route::name('editarIngresoExtraudinario')->get('ingresos/extraudinarios/{anio}/{id}/editar','IngresosCtrl@editarIngresoExtraudinario');
-		Route::name('actualizarIngresoExtraudinario')->put('ingresos/extraudinarios/{anio}/{id}','IngresosCtrl@actualizarIngresoExtraudinario');
+		Route::name('otrosPagos')->get('ingresos/otros/{anio?}','IngresosCtrl@otrosPagos');
+		Route::name('pagosDeAduedo')->get('ingresos/adeudos/{id}/{anio?}','IngresosCtrl@pagosDeAduedo');
+		Route::name('guardarOtrosPagos')->post('ingresos/otros/{anio?}','IngresosCtrl@guardarOtrosPagos');
+
+
+		Route::name('ingresosExtraordinarios')->get('ingresos/extraordinarios/{anio?}','IngresosCtrl@ingresosExtraordinarios');
+		Route::name('guardarIngresoExtraordinario')->post('ingresos/extraordinarios/{anio?}','IngresosCtrl@guardarIngresoExtraordinario');
+		Route::name('eliminarIngresoExtraordinario')->delete('ingresos/extraordinarios/{anio}/{id}','IngresosCtrl@eliminarIngresoExtraordinario');
+		Route::name('editarIngresoExtraordinario')->get('ingresos/extraordinarios/{anio}/{id}/editar','IngresosCtrl@editarIngresoExtraordinario');
+		Route::name('actualizarIngresoExtraordinario')->put('ingresos/extraordinarios/{anio}/{id}','IngresosCtrl@actualizarIngresoExtraordinario');
 
 		Route::name('gastosOrdinarios')->get('gastos/ordinarios/{anio?}','GastoCtrl@ordinarios');
 		Route::name('guardarGastosOrdinarios')->post('gastos/ordinarios/{anio?}','GastoCtrl@guardarOrdinarios');
 
-		Route::name('gastosExtraudinarios')->get('gastos/extraudinarios/{anio?}','GastoCtrl@gastosExtraudinarios');
-		Route::name('guardarGastoExtraudinario')->post('gastos/extraudinarios/{anio?}','GastoCtrl@guardarGastoExtraudinario');
-		Route::name('eliminarGastoExtraudinario')->delete('gastos/extraudinarios/{anio}/{id}','GastoCtrl@eliminarGastoExtraudinario');
-		Route::name('editarGastoExtraudinario')->get('gastos/extraudinarios/{anio}/{id}/editar','GastoCtrl@editarGastoExtraudinario');
-		Route::name('actualizarGastoExtraudinario')->put('gastos/extraudinarios/{anio}/{id}','GastoCtrl@actualizarGastoExtraudinario');
+		Route::name('gastosExtraordinarios')->get('gastos/extraordinarios/{anio?}','GastoCtrl@gastosExtraordinarios');
+		Route::name('guardarGastoExtraordinario')->post('gastos/extraordinarios/{anio?}','GastoCtrl@guardarGastoExtraordinario');
+		Route::name('eliminarGastoExtraordinario')->delete('gastos/extraordinarios/{anio}/{id}','GastoCtrl@eliminarGastoExtraordinario');
+		Route::name('editarGastoExtraordinario')->get('gastos/extraordinarios/{anio}/{id}/editar','GastoCtrl@editarGastoExtraordinario');
+		Route::name('actualizarGastoExtraordinario')->put('gastos/extraordinarios/{anio}/{id}','GastoCtrl@actualizarGastoExtraordinario');
 	
 		Route::name('adeudosMensuales')->get('adeudos/mensualidades/{anio?}','AdeudoCtrl@mensualidades');
 		Route::name('guardarAdeudosMensuales')->post('adeudos/mensualidades/{anio?}','AdeudoCtrl@guadarMensualidades');
@@ -72,8 +78,11 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 		Route::name('editarOtroAdeudo')->get('adeudos/otros/{anio}/{id}/editar','AdeudoCtrl@editarOtroAdeudo');
 		Route::name('actualizarOtroAdeudo')->put('adeudos/otros/{anio}/{id}','AdeudoCtrl@actualizarOtroAdeudo');
 	
-		
+		Route::name('mostrarReporteGeneral')->get('reportes/general/mostrar/{anio?}/{mes?}','ReporteCtrl@mostrarReporteGeneral');
+		Route::name('reporteGeneral')->match(['get', 'post'],'reportes/general/{anio?}/{mes?}','ReporteCtrl@general');
 
+		Route::name('mostrarReporteIngresos')->get('reportes/ingresos/mostrar/{anio?}/{mes?}','ReporteCtrl@mostrarReporteIngresos');
+		Route::name('reporteIngresos')->match(['get', 'post'],'reportes/ingresos/{anio?}/{mes?}','ReporteCtrl@ingresos');
 
 	});
 });

@@ -11,7 +11,7 @@ class Gasto extends Model
 {
     use IdTrait;
     use SoftDeletes;
-    protected $dates = ['deleted_at'];
+    protected $dates = ['fecha','deleted_at'];
 
     protected $fillable = [
        'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'concepto_id'
@@ -20,7 +20,7 @@ class Gasto extends Model
    	{
    		return $query->where('tipo','O');
    	}
-   	public function scopeExtraudinarios($query)
+   	public function scopeExtraordinarios($query)
    	{
    		return $query->where('tipo','E');
    	}
@@ -28,6 +28,11 @@ class Gasto extends Model
     {
         return $query->where(DB::raw('YEAR(fecha)'),$anio);
     }
+    public function scopeFecha($query,$fecha)
+    {
+        return $query->where(DB::raw('YEAR(fecha)'),$fecha->year)->where(DB::raw('MONTH(fecha)'),$fecha->month);
+    }
+
     public function scopeCondominioId($query,$id)
     {
         return $query->where('condominio_id',$id);
