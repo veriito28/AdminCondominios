@@ -97,11 +97,29 @@ class ReporteCtrl extends Controller
 		$pdf = \PDF::loadView('reportes.pdf.general',compact('condominio','fecha','pagosMensuales','pagosAtrasados','pagosAdelantados','adeudoMensual','gastosOrdinarios','otrosPagos','gastosExtraordinarios','encabezado','mensaje','presupuesto_atrazadas','diferencia'));
 		return $pdf->stream('reporteGeneral.pdf');
 	}
-    public function ingresos($anio=null,$mes=null,Request $request)
+    public function ingresos($anio = null,$mes = null,Request $request)
     {
-            return "asdasd";
+        $fecha = Date::now(); 
+        if ($anio || $request->has('anio')) {
+            $fecha->year = $request->anio?$request->anio:$anio;
+        }
+        if ($mes || $request->has('mes')) {
+            $fecha->month = $request->mes?$request->mes:$mes; 
+        }
+
+        if ($request->has('encabezado')) {
+            $encabezado = $request->encabezado; 
+        }
+        if ($request->has('mensaje')) {
+            $mensaje =$request->mensaje; 
+        }
+
+        $condominio = session()->get('condominio');
+        $condominio = $this->condominio->find($condominio->id);
+        return view('reportes.ingresos',compact('condominio','fecha','encabezado','mensaje'));
+
     }
-    public function mostrarReporteIngresos($anio=null,$mes=null,Request $request)
+    public function mostrarReporteIngresos($anio = null,$mes = null,Request $request)
     {
 
         $fecha = Date::now(); 
@@ -120,7 +138,7 @@ class ReporteCtrl extends Controller
         $condominio = session()->get('condominio');
         $condominio = $this->condominio->find($condominio->id);
         // $adeudosMensuales = $this->adeudo->mensualidades()->condominioId($condominio->id)->hasta($fecha)->get();
-        $pdf = \PDF::loadView('reportes.pdf.ingresos',compact('condominio','fecha','encabezado','mensaje','presupuesto_atrazadas','diferencia'));
+        $pdf = \PDF::loadView('reportes.pdf.ingresos',compact('condominio','fecha','encabezado'));
         return $pdf->stream('reporteIngresos.pdf');
     }    
 }

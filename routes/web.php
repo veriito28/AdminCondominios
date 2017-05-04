@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::name('calando')->get('calando',function (){
+	dd(\App\Adeudo::casaHasta(1,\Date::now())->get());
+});
+
+
 
 Route::name('mostrarLogin')->get('login','InvitadoCtrl@mostrarLogin');
 Route::name('login')->post('login','InvitadoCtrl@login');

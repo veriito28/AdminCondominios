@@ -5,7 +5,7 @@
 	<div class="html">
 		<div class="ui  column centered grid">
 			<div class="column">
-				<div class="ui segments">
+				<div class="ui compact segments">
 					<div class="ui green segment content-pull"> 
 						<div class="ui right aligned header">
 							<h2>
@@ -18,7 +18,16 @@
 							<i class="circular building icon"></i>
 							Pagos de <span class="ui header green">"{{$otroAdeudo->casa->nombre}}"</span> - {{$otroAdeudo->concepto}}
 						</h2>
-						<form action="{{route('guardarOtrosPagos',compact('anio'))}}" method="POST">
+						<div class="ui   segment">
+								<p>Total Adeudo: <strong>$ {{$otroAdeudo->cantidad}}</strong></p>
+								<p>Pagado: <strong>$ {{$otroAdeudo->pagos()->sum('cantidad')}}</strong></p>
+
+						    <div>
+								Adeudo Actual: <strong>$ {{$otroAdeudo->cantidad - $otroAdeudo->pagos()->sum('cantidad')}}</strong>
+						    </div>
+						</div>
+						
+					<form action="{{route('guardarOtrosPagos',compact('anio'))}}" method="POST">
 							{{ csrf_field() }}
 							<table class="ui compact very line table table-pagos">
 								<thead >

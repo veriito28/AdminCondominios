@@ -12,7 +12,7 @@
 				<div class="row">	
 					<div class="column">
 						<div class="ui">
-							<div class="ui segment inverted black">
+							<div class="ui segment clearing inverted black">
 								<h1 class="ui horizontal divider header">
 									<img src="{{ asset('img/logo.png') }}" alt="" class="icon">
 									CONDOMINIOS
@@ -39,7 +39,7 @@
 										</div>
 									</div>
 									@endif
-									<button class="ui button green" type="submit">Iniciar Sesión</button>
+									<button class="ui button right floated   green" type="submit">INICIAR SESIÓN</button>
 								</form>
 							</div>
 						</div>

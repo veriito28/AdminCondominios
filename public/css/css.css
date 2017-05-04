@@ -98,3 +98,52 @@ body{
 .tr-adeudo th{
 	padding: 0px 10px!important;
 }
+.ui.table.table-ingresos thead tr th{
+	background: rgb(0, 176, 80)!important;
+}
+.ui.table.table-ingresos thead tr:first-child th{
+	background: rgb(0, 32, 96)!important;
+	/*border-left: 1px solid #000;*/
+}
+.ui.table.table-ingresos > tbody > tr:nth-of-type(odd) {
+  	background-color: #e4e4e4;
+}
+.ui.table.table-ingresos tbody th{
+	background: rgb(255, 192, 0);
+	font-size: 13px;
+}
+.ui.table.table-ingresos tbody th strong,.ui.table.table-ingresos tbody td strong{
+	text-transform: uppercase;
+}
+.ui.table.table-ingresos thead th,.ui.table.table-ingresos tbody th{
+	text-transform: uppercase;
+	color: #fff!important;
+	font-weight: 600;
+}
+.ui.table.table-ingresos tbody td.total{
+	background: rgb(255, 192, 0)!important;
+	font-size: 13px;
+	font-weight: 600;
+	color: #fff;
+}
+.ui.table.table-ingresos tbody th strong,.ui.table.table-ingresos tbody td strong{
+	text-transform: uppercase;
+}
+
+.ui.table.table-ingresos thead tr:first-child th{
+    font-size: 16px;
+    font-weight: 700;
+	text-align: center;
+} 
+.danger{
+	color: rgb(192, 0, 0)!important;
+}
+.ui.table.table-ingresos > tbody > tr:nth-of-type(odd) {
+  	background-color: #e4e4e4;
+}
+.ui.table.table-ingresos thead tr{
+	background: rgb(0, 176, 80)!important;
+}
+.ui.table.table-ingresos thead tr:first-child{
+	background: rgb(0, 32, 96)!important;
+}

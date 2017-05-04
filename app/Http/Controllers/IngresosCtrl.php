@@ -36,13 +36,27 @@ class IngresosCtrl extends Controller
     	$index = 1;
         $meses = config('helper.meses');
         $condominio = session()->get('condominio');
-    	foreach ($request->except(['_token']) as $key => $valores) {
+    	$adeudosMensuales = $this->adeudo->mensualidades()->condominioId($condominio->id)->anio($anio)->get();
+        foreach ($request->except(['_token']) as $key => $valores) {
           	$fecha = Carbon::createFromDate($anio,$meses[$key],1);
     		foreach ($valores as $casa_id => $cantidad) {
-    			if ($cantidad) {
-		    		$pago = Pago::updateOrCreate([
+    			if (!is_null($cantidad)) {
+		    		$adeudoMenusal = $adeudosMensuales->first(function ($adeudo, $key) use($fecha) {
+                        return $adeudo->fecha->month == $fecha->month;
+                    });
+                    if (is_null($adeudoMenusal)) {
+                        $adeudoMenusal = $this->adeudo->create([
+                                    'tipo'          => 'M',
+                                    'condominio_id' => $condominio->id, 
+                                    'fecha'         => $fecha->toDateString(), 
+                                    'concepto'      => 'mensualidad',
+                                    'cantidad'      => 0
+                                ]);
+                    }
+                    $pago = Pago::updateOrCreate([
                                 'tipo'          => 'M',
                                 'casa_id'       => $casa_id, 
+                                'adeudo_id'       => $adeudoMenusal->id, 
                                 'condominio_id' => $condominio->id,
                                 'fecha'         => $fecha->toDateString(), 
                                 'concepto'      => $tipo
@@ -121,12 +135,14 @@ class IngresosCtrl extends Controller
         foreach ($request->except(['_token']) as $key => $valores) {
         $fecha = Carbon::createFromDate($anio,$meses[$key],1);
             foreach ($valores as $adeudo_id => $cantidad) {
-                if ($cantidad) {
+                if (!is_null($cantidad)) {
+                    $otroAdeudo = $this->adeudo->find($adeudo_id);
                     $pago = Pago::updateOrCreate([
-                                'tipo'      => 'O',
+                                'tipo'          => 'O',
                                 'condominio_id' => $condominio->id,
-                                'adeudo_id' => $adeudo_id, 
-                                'fecha'     => $fecha->toDateString(), 
+                                'casa_id'       => $otroAdeudo->casa_id,
+                                'adeudo_id'     => $adeudo_id, 
+                                'fecha'         => $fecha->toDateString(), 
                             ],
                             [
                                 'cantidad' => $cantidad
@@ -147,7 +163,7 @@ class IngresosCtrl extends Controller
         }
         $condominio = session()->get('condominio');
         $otroAdeudo = $this->adeudo
-           ->with('pagos')
+           ->with('pagos','casa')
            ->find($id);
         return view("ingresos.otros.mensualidades",compact('condominio','anio','otroAdeudo'));
     }

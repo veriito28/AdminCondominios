@@ -144,7 +144,7 @@
 							<a href="{{route('reporteGeneral')}}" class="item {{Request::is('usuario/condominio/reportes/general*')?'active orange':''}}">							
 								General
 							</a>
-							<a class="item {{Request::is(route('pagos'))?'active orange':''}}">
+							<a href="{{route('reporteIngresos')}}" class="item {{Request::is('usuario/condominio/reportes/ingresos*')?'active orange':''}}">							
 								Ingresos
 							</a>
 						</div>
@@ -181,6 +181,13 @@
 	<script>
 		$(document).ready(function() {
 			$('.ui.dropdown').dropdown();
+			$("input").focus(function() {
+				var vm = this;
+				setTimeout(function() {
+					$(vm).select();
+				},1);			
+			});
+
 		});
 	</script>
 	@section('scripts')				

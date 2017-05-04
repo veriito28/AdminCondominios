@@ -18,6 +18,7 @@ class Pago extends Model
     protected $fillable = [
 		'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'casa_id', 'adeudo_id'
     ];
+   
     public function scopeMensuales($query)
     {
         return $query->where('tipo','M');

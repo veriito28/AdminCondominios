@@ -18,10 +18,10 @@
 							Reporte de Ingresos <span class="ui header green">"{{$condominio->nombre}}"</span> - {{$fecha->format('F Y')}}
 						</h2>
 						<div class="ui divider"></div>
-						<form class="ui form large equal width" action="{{route('reporteGeneral',['anio'=> $fecha->year,'mes'=>$fecha->month])}}" method="post">
+						<form class="ui form large equal width" action="{{route('reporteIngresos',['anio'=> $fecha->year,'mes'=>$fecha->month])}}" methodp="post">
 							{{csrf_field()}}
 							<div class="inline fields">
-								<div class="four wide field  {{$errors->reporteGeneral->has('encabezado')?'error':''}}">
+								<div class="eight wide field  {{$errors->reporteGeneral->has('encabezado')?'error':''}}">
 									<div class="ui labeled input mini">
 										<div class="ui label">
 										    Encabezado
@@ -31,19 +31,6 @@
 									@if ($errors->ingresoExtraUpdate->has('encabezado'))
 										<div class="ui left pointing red basic label">
 											{{$errors->reporteGeneral->first('encabezado')}}		
-									    </div>
-									@endif
-								</div>		
-								<div class="four wide field  {{$errors->reporteGeneral->has('mensaje')?'error':''}}">
-									<div class="ui labeled input mini">
-										<div class="ui label">
-										    Mensaje
-										</div>
-									    <input type="text" name="mensaje" value="{{isset($mensaje)?$mensaje:old('mensaje')}}" placeholder="Mensaje">
-									</div>
-									@if ($errors->ingresoExtraUpdate->has('mensaje'))
-										<div class="ui left pointing red basic label">
-											{{$errors->reporteGeneral->first('mensaje')}}		
 									    </div>
 									@endif
 								</div>		
@@ -82,49 +69,83 @@
 									@endif
 								</div>
 								<div class="ui buttons">
-									<input type="submit" name="mostrar" value="Mostrar" class="ui button">
+									<input type="submit" name="mostrar" value="Mostrar" class="ui positive button">
 									<div class="or" data-text="O"></div>
-									<input type="submit" name="guardar" value="Guardar" class="ui positive button">
+									 @php
+									  	$anio =$fecha->year;
+									  	$mes = $fecha->month;									  	
+									  @endphp
+									<a target="_blank" href="{{ route('mostrarReporteIngresos',compact('encabezado','anio','mes')) }}" type="submit" class="ui black button">
+										Imprimir
+									</a>
 								</div>
+									 
 							</div>	
-							<div class="inline fields">
-								<div class="four wide field  {{$errors->reporteGeneral->has('presupuesto_atrazadas')?'error':''}}">
-									<div class="ui labeled input mini">
-										<div class="ui label">
-										    Presupuesto Atrazadas
-										</div>
-									    <input type="text" name="presupuesto_atrazadas" value="{{isset($presupuesto_atrazadas)?$presupuesto_atrazadas:old('presupuesto_atrazadas')}}" placeholder="Presupuesto Atrazadas">
-									</div>
-									@if ($errors->ingresoExtraUpdate->has('presupuesto_atrazadas'))
-										<div class="ui left pointing red basic label">
-											{{$errors->reporteGeneral->first('presupuesto_atrazadas')}}		
-									    </div>
-									@endif
-								</div>		
-								<div class="four wide field  {{$errors->reporteGeneral->has('diferencia')?'error':''}}">
-									<div class="ui labeled input mini">
-										<div class="ui label">
-										    Diferencia Vecinales Autorizado	
-										</div>
-									    <input type="text" name="diferencia" value="{{isset($diferencia)?$diferencia:old('diferencia')}}" placeholder="Diferencia Vecinales Autorizado">
-									</div>
-									@if ($errors->ingresoExtraUpdate->has('diferencia'))
-										<div class="ui left pointing red basic label">
-											{{$errors->reporteGeneral->first('diferencia')}}		
-									    </div>
-									@endif
-								</div>		
-							</div>		
 						</form>
-						<div class="ui divider"></div>
+						<div class="ui divider">
+						</div>
 						<div class="ui two column centered grid">
-						  <div class="four column centered row">
-						  @php
-						  	$anio =$fecha->year;
-						  	$mes = $fecha->month;
-						  @endphp
-								<iframe src="{{ route('mostrarReporteGeneral',compact('anio','mes','encabezado','mensaje','presupuesto_atrazadas','diferencia')) }}" frameborder="0" width="850"  scrolling="auto" height="1100"></iframe>
-						  </div>
+							<div class="ui eight column centered row">
+							<table class="ui table single line table-ingresos" >
+								<thead>
+									<tr>
+										<th colspan="5">Ingreso</th>
+									</tr>
+									<tr>
+										<th >CASA</th>
+										<th  >CONDOMINIO</th>
+										<th class="center aligned ui">ADEUDO A {{$fecha->format('F - Y')}}</th>
+										<th class="center aligned ui">PAGO DEL MES</th>
+										<th class="center aligned ui" >TOTAL DE ADEUDO</th>
+									</tr>
+								</thead>    	
+								<tbody>
+										@php
+											$sumaHastaTotal = 0;
+											$sumaDelTotal = 0;
+											$sumaTodoTotal = 0;
+										@endphp
+										@foreach ($condominio->casas as $casa)
+											<tr>
+												<td>	
+													{{$casa->nombre}}
+												</td>
+												<td>	
+													{{$casa->contacto}}
+												</td>
+												<td class="center aligned ui">
+													$ {{$hasta = \App\Adeudo::casaHasta($casa->id,$fecha)->get()->sum('adeudado')}}
+												</td>
+												<td class="center aligned ui">
+													$ {{$del = \App\Adeudo::casaDelMes($casa->id,$fecha)->get()->sum('adeudado')}}
+												</td>
+												<td class="center aligned ui">
+													$ {{$todos = \App\Adeudo::casaTodos($casa->id)->get()->sum('adeudado')}}
+												</td>
+												@php
+													$sumaHastaTotal += $hasta;
+													$sumaDelTotal += $del;
+													$sumaTodoTotal += $todos;
+												@endphp
+											</tr>
+										@endforeach
+										<tr>
+											<td class="right aligned " colspan="2">
+												TOTAL
+											</td>
+											<td class="ui center aligned total">
+												$ {{$sumaHastaTotal}}
+											</td>
+											<td class="ui center aligned total">
+												$ {{$sumaDelTotal}}
+											</td>
+											<td class="ui center aligned total">
+												$ {{$sumaTodoTotal}}
+											</td>
+										</tr>
+								</tbody>
+							</table>
+							</div>
 						</div>
 					</div>
 				</div>

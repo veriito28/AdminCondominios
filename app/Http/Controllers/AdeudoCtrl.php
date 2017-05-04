@@ -40,10 +40,10 @@ class AdeudoCtrl extends Controller
     	foreach ($request->except(['_token']) as $key => $valores) {
     		$fecha = Carbon::createFromDate($anio,$meses[$key],1);
     		foreach ($valores as $concepto => $cantidad) {
-    			if ($cantidad) {
+    			if (!is_null($cantidad)) {
 		    		$this->adeudo->updateOrCreate([
                                     'tipo'          => 'M',
-                                      'condominio_id' => $condominio->id, 
+                                    'condominio_id' => $condominio->id, 
                                     'fecha'         => $fecha->toDateString(), 
                                     'concepto'      => $concepto
                                 ],

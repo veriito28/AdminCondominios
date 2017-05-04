@@ -82,9 +82,9 @@
 									@endif
 								</div>
 								<div class="ui buttons">
-									<input type="submit" name="mostrar" value="Mostrar" class="ui button">
+									<input type="submit" name="mostrar" value="Mostrar" class="ui positive button">
 									<div class="or" data-text="O"></div>
-									<input type="submit" name="guardar" value="Guardar" class="ui positive button">
+									<input type="submit" name="guardar" value="Guardar" class="ui black button">
 								</div>
 							</div>	
 							<div class="inline fields">

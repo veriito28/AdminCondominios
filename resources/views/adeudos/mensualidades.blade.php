@@ -112,13 +112,7 @@
     					"octubre", 
     					"noviembre", 
     					"diciembre"];
-		$(".input-table").focus(function() {
-			var vm = this;
-			setTimeout(function() {
-				$(vm).select();
-			},1);			
-		});
-
+		
 		$(".input-table").keydown(function(event ) {
 			var index = $(this).prop('name').match(/\[(.*?)\]/)[1];
 			var nombre = $(this).prop('name').match(/([a-z])\w+/)[0];
