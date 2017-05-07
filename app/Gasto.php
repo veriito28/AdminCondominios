@@ -5,12 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
+use App\FechaTrait;
 use App\Concepto;
 use DB;
 class Gasto extends Model
 {
-    use IdTrait;
-    use SoftDeletes;
+    use IdTrait,FechaTrait,SoftDeletes;
+  
     protected $dates = ['fecha','deleted_at'];
 
     protected $fillable = [
@@ -24,14 +25,7 @@ class Gasto extends Model
    	{
    		return $query->where('tipo','E');
    	}
-    public function scopeAnio($query,$anio)
-    {
-        return $query->where(DB::raw('YEAR(fecha)'),$anio);
-    }
-    public function scopeFecha($query,$fecha)
-    {
-        return $query->where(DB::raw('YEAR(fecha)'),$fecha->year)->where(DB::raw('MONTH(fecha)'),$fecha->month);
-    }
+  
 
     public function scopeCondominioId($query,$id)
     {

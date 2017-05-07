@@ -6,10 +6,10 @@
 	</div>
 	<div class="content">
 		{{ csrf_field() }}
-		<input type="hidden" name="anio" value="{{$anio}}">
+		<input type="hidden" name="form" value="modal">
 		<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('concepto')?'error':''}}">
+			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('concepto')&& old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Concepto
@@ -24,7 +24,7 @@
 			</div>		
 		</div>		
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('cantidad')?'error':''}}">
+			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('cantidad')&& old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Cantidad
@@ -39,7 +39,7 @@
 			</div>		
 		</div>		
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('fecha')?'error':''}}">
+			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('fecha')&& old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Fecha
@@ -70,7 +70,7 @@
 		$('.nuevoIngresoExtra').click(function(arg) {
 			$('#modalNuevoIngresoExtra').modal('show');			
 		});
-		@if (count($errors->ingresoExtraStore))
+		@if (count($errors->ingresoExtraStore) > 0 && old('form') == 'modal')
 			$('#modalNuevoIngresoExtra').modal('show');			
 		@endif
 	});

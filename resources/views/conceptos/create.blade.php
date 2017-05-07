@@ -2,7 +2,7 @@
 	<i class="close icon"></i>
 	<div class="header">
 		<i class="home outline icon"></i>
-		Agregar una Concepto
+		Agregar un Concepto
 	</div>
 	<div class="content">
 		{{ csrf_field() }}

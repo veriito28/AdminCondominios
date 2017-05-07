@@ -2,7 +2,7 @@
 <html lang="es">
 	<head>
 		<meta charset="utf-8">
-		<title>Reporte General</title>
+		<title>Reporte Personal</title>
 		<style>
 			@page{
 				margin: 3cm 0.5cm;
@@ -52,7 +52,7 @@
 			}
 			
 			.table td, .table th{
-				padding: 3px 15px;
+				padding: 3px 5px;
 				font-weight: 300;
 				/*border: 1px solid #fff;*/
 			}
@@ -85,6 +85,7 @@
 				text-transform: uppercase;
 			}
 			.table, .table td,.table tbody th{
+				white-space: nowrap;
 				/*border: 0.5px solid #333;*/
 			}
 			.table thead tr:first-child th{
@@ -139,6 +140,10 @@
 				margin: 1px;
 				text-transform: uppercase;
 			}
+			.table-pagos{
+				width: 40%;
+				margin: 0 auto;
+			}			 
 	</style>
 	</head>
 	<body>
@@ -153,65 +158,102 @@
 			<table class="table" id="table-ingresos-ordinarios">
 				<thead>
 					<tr>
-						<th colspan="5" ><span class="vertical_Text">Ingreso </span></th>
+						<th colspan="3" ><span class="vertical_Text">Ingreso de {{$casa->nombre}} </span></th>
+						<th colspan="3" ><span class="vertical_Text">Condomino: {{$casa->contacto}} </span></th>
 					</tr>
 					<tr>
-						<th width="30%">CASA</th>
-						<th width="40%">CONDOMINO</th>
-						<th width="40%">ADEUDO A {{$fecha->format('F - Y')}}</th>
-						<th width="30%">PAGOS DEL MES</th>
-						<th width="30%">TOTAL DE ADEUDO</th>
+						<th width="30%">CONCEPTO</th>
+						<th width="40%">FECHA</th>
+						<th width="30%">TOTAL ADEUDO</th>
+						<th width="30%">MONTO PAGADO</th>
+						<th width="30%">MONTO ADEUDADO</th>
+						<th width="30%">PAGAR ANTES DE</th>
 					</tr>
 				</thead>    	
 				<tbody>
 						@php
-							$sumaHastaTotal = 0;
-							$sumaDelTotal = 0;
-							$sumaTodoTotal = 0;
+							$sumaCantidad = 0;
+							$sumaPagado = 0;
+							$sumaAdeudo = 0;
 						@endphp
-						@foreach ($condominio->casas as $casa)
+						@foreach (\App\Adeudo::casaTodos($casa->id)->get() as $adeudo)
 							<tr>
 								<td>	
-									{{$casa->nombre}}
+									{{$adeudo->concepto=='mensualidad'?'Mantenimiento':$adeudo->concepto}}
 								</td>
 								<td>	
-									{{$casa->contacto}}
+									{{$adeudo->fecha->format('F \\d\\e\\ Y')}}
 								</td>
-								<td class="text-right">
-									$ {{$hasta = \App\Adeudo::casaHasta($casa->id,$fecha)->get()->sum('adeudado')}}
+								<td class="text-center">
+									$ {{$cantidad = round($adeudo->cantidad ,2)}}
 								</td>
-								<td class="text-right">
-									$ {{$del = \App\Pago::casaId($casa->id)->fecha($fecha)->get()->sum('cantidad')}}
+								<td class="text-center">
+									$ {{$pagado = round($adeudo->pagado ,2)}}
 								</td>
-								<td class="text-right">
-									$ {{$todos = \App\Adeudo::casaTodos($casa->id)->get()->sum('adeudado')}}
+								<td class="text-center">
+									$ {{$adeudo = round($adeudo->adeudado ,2)}}
+								</td>
+								<td class="text-center">
+									Inmediato
 								</td>
 								@php
-									$sumaHastaTotal += $hasta;
-									$sumaDelTotal += $del;
-									$sumaTodoTotal += $todos;
+									$sumaCantidad += $cantidad;
+									$sumaPagado += $pagado;
+									$sumaAdeudo += $adeudo;
 								@endphp
 							</tr>
 						@endforeach
 						<tr>
 							<td class="text-right" colspan="2">
-								TOTAL
+								SUBTOTALES:
 							</td>
-							<th class="text-right">
-								$ {{$sumaHastaTotal}}
-							</th>
-							<th class="text-right">
-								$ {{$sumaDelTotal}}
-							</th>
-							<th class="text-right">
-								$ {{$sumaTodoTotal}}
+							<td class="text-center">
+								<strong>$ {{round($sumaCantidad ,2)}}</strong>
+							</td>
+							<td class="text-center">
+								<strong>$ {{round($sumaPagado ,2)}}</strong>
+							</td>
+							<td class="text-center">
+								<strong>$ {{round($sumaAdeudo ,2)}}</strong>
+							</td>
+							<td>
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="4">
+								<h2>MONTO DEL AVISO:</h2>
+							</td>
+							<th  colspan="4">
+								<h2>$ {{$sumaAdeudo}}</h2>
 							</th>
 						</tr>
 				</tbody>
 			</table>
+			@if (isset($cuentas_seleccionadas ))
+				<table class="table table-pagos">
+					<thead>
+						<tr>
+							<th colspan="2">
+								ALTERNATIVAS DE PAGO
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+							@foreach ($cuentas_seleccionadas as $cuenta)
+								<tr>
+									<td><img src="{{ $cuenta->imagen_url }}" width="100px" alt="Imagen Cuenta"></td>
+									<td>{{$cuenta->mensaje}}</td>
+								</tr>
+							@endforeach
+					</tbody>
+				</table>
+			@endif
 		</div>
+
 		<div id="footer">
 			<p>{{isset($mensaje)?$mensaje:''}}</p>
+			<h3 style="color: green;text-transform: none;">smartdemexico@hotmail.com</h3>
 		</div>
 	</body>
 </html>

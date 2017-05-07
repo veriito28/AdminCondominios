@@ -87,6 +87,8 @@ return [
     'unique'               => 'El elemento :attribute ya está en uso.',
     'uploaded'             => 'El elemento :attribute fallo al subir.',
     'url'                  => 'El formato de :attribute no corresponde con el de una URL válida.',
+   
+    'password_valid'        => 'El campo :attribute no es válida.',
 
     /*
     |--------------------------------------------------------------------------
@@ -116,6 +118,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'password' => 'contraseña',
+        'new_password' => 'nueva contraseña',
+        'new_password_confirmation' => 'confirmar nueva contraseña',
+    ],
 
 ];

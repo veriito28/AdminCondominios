@@ -52,7 +52,7 @@
 										Casa	
 									</th>
 									
-									<th>
+									<th width="40%">
 										Concepto	
 									</th>
 									<th>
@@ -88,16 +88,68 @@
 										<div class="options">
 											<div class="ui small basic icon buttons">
 												<a href="{{ route('editarOtroAdeudo',['anio'=>$anio,'id'=>$otroAdeudo->id]) }}" class="ui button basic green"><i class="edit icon"></i></a>
-												<form action="{{ route('eliminarOtroAdeudo',['anio'=>$anio,'id'=>$otroAdeudo->id]) }}" method="post">										    	
-													{{method_field('DELETE')}}	
-													{{csrf_field()}}	
-													<button type="submit" class="ui button basic red"><i class="trash icon"></i></button>
-												</form>
+												<a id="removerElemento{{$otroAdeudo->id}}"  class="ui button basic red"><i class="trash icon"></i></a>
 											</div>
 										</div>
 									</td>
 								</tr>
 								@endforeach
+								<form name="formTable" action="{{route('guardarOtroAdeudo',compact('anio'))}}" method="POST" class="form-inline">
+									{{ csrf_field() }}
+									<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
+									<input type="hidden" name="form" value="table">
+									<tr class="agregar active">
+										<td>
+											<div class="ui input mini ">
+												<div class="ui selection dropdown {{$errors->otroAdeudoStore->has('casa_id') && old('form') == 'table'?' error':''}}">
+													<input type="hidden" name="casa_id" value="{{old('casa_id')}}">
+													<i class="dropdown icon"></i>
+													<div class="default text">Seleccione una opción</div>
+													<div class="menu">
+														@foreach ($condominio->casas as $casa)
+														<div class="item" data-value="{{$casa->id}}">{{$casa->nombre}}</div>
+														@endforeach
+													</div>
+												</div>
+											</div>	
+										</td>
+										<td>
+											<div class="ui input mini {{$errors->otroAdeudoStore->has('concepto') && old('form') == 'table'?' error':''}}">
+												<input 	type="text" 
+														autocomplete="off" 
+														class="input-table" 
+														name="concepto" 
+														placeholder="Concepto" 
+														value="{{old('concepto')? old('concepto'):''}}">
+											</div>										
+										</td>
+										<td>
+											<div class="ui input mini {{$errors->otroAdeudoStore->has('cantidad') && old('form') == 'table'?' error':''}}">
+												<input 	type="number" 
+														autocomplete="off" 
+														class="input-table" 
+														name="cantidad" 
+														placeholder="Cantidad" 
+														value="{{old('cantidad')? old('cantidad'):''}}">
+											</div>										
+										</td>
+										<td class="cell-action">
+											<div class="ui input mini {{$errors->otroAdeudoStore->has('cantidad') && old('form') == 'table'?' error':''}}">
+												<input 	type="date" 
+														autocomplete="off" 
+														class="input-table" 
+														name="fecha" 
+														placeholder="Fecha" 
+														value="{{old('fecha')? old('fecha'):\Date::now()->year($anio)->toDateString()}}">
+											</div>	
+											<div class="options">
+												<div class="ui icon buttons">
+													<button class="ui button green"><i class="plus icon"></i></button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</form>
 							</tbody>
 						</table>
 					</div>
@@ -107,5 +159,10 @@
 	</div>
 </div>
 @include('adeudos.otros.create',compact('errors','anio','condominio'))
+@endsection
+
+@section('scripts')
+	@parent
+	@include('removeOption',['elementos'=>$otrosAdeudos,'ruta'=>'eliminarOtroAdeudo'])
 @endsection
 

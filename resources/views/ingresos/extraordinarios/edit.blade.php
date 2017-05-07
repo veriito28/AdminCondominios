@@ -7,7 +7,7 @@
 				<div class="ui segments">
 					<div class="ui green segment"> 
 						<h2 class="ui center aligned icon header">
-							<i class="dollar icon"></i>
+							<i class="circular dollar icon"></i>
 							Editar Ingreso Extraordinario
 						</h2>
 						<form class="ui form large equal width" action="{{route('actualizarIngresoExtraordinario',['anio'=> $anio,'id'=>$ingresoExtraordinario->id])}}" method="POST">

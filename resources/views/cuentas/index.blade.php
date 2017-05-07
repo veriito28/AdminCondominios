@@ -15,45 +15,44 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							 <i class="circular folder open icon"></i>
-								Conceptos Generales
+								Cuentas 
 						</h2>
 						<table class="ui green celled table">
 							<thead >
 								<tr>
 									<th colspan="3">
-										<h3>Todos los Conceptos
-											<a href="#!" class="nuevoConcepto ui right floated small black icon button">
+										<h3>Todas las Cuentas
+											<a href="#!" class="nuevoCuenta ui right floated small black icon button">
 												<i class="large icons">
 												    <i class="home icon"></i>
 												    <i class="inverted corner add icon"></i>
 												</i>
-												Agregar Concepto
+												Agregar Cuenta
 											</a>
 										</h3>
 									</th>
 								</tr>
 								<tr>
 									<th>
-										#	
+										Imagen	
 									</th>
 									<th>
-										Nombre
+										Mensaje
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach ($conceptos as $concepto)
+								@foreach ($cuentas as $cuenta)
 								<tr>
 									<td class="cell-action">
-										{{$concepto->id}}
+										<img src="{{$cuenta->imagen}}" alt="Imagen Cuenta" width="70px">
 									</td>
 									<td class="cell-action">
-										{{$concepto->nombre}}							
+										{{$cuenta->mensaje}}							
 										<div class="options">
 											<div class="ui small basic icon buttons">
-											    <a href="{{ route('editarConcepto',['id'=>$concepto->id]) }}" class="ui button basic green"><i class="edit icon"></i></a>
-											    <a id="removerElemento{{$concepto->id}}"  class="ui button basic red"><i class="trash icon"></i></a>
-											   
+											    <a href="{{ route('editarCuenta',['id'=>$cuenta->id]) }}" class="ui button basic green"><i class="edit icon"></i></a>
+											    <a id="removerElemento{{$cuenta->id}}"  class="ui button basic red"><i class="trash icon"></i></a>
 											</div>
 										</div>
 
@@ -68,10 +67,9 @@
 		</div>
 	</div>
 </div>
-@include('conceptos.create',['errors' => $errors])
+@include('cuentas.create',['errors' => $errors])
 @endsection
-
 @section('scripts')
 	@parent
-	@include('removeOption',['elementos'=>$conceptos,'ruta'=>'eliminarConcepto'])
+	@include('removeOption',['elementos'=>$cuentas,'ruta'=>'eliminarCuenta'])
 @endsection

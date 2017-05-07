@@ -23,12 +23,6 @@
 												Agregar Casa
 											</a>
 										</h3>
-{{-- 										<div class="ui small button">
-											Approve
-										</div>
-										<div class="ui small  disabled button">
-											Approve All
-										</div> --}}
 									</th>
 								</tr>
 								<tr>
@@ -71,14 +65,9 @@
 										<div class="options">
 											<div class="ui small basic icon buttons">
 											    <a href="{{ route('editarCasa',['id'=>$casa->id]) }}" class="ui button basic green"><i class="edit icon"></i></a>
-											    <form action="{{ route('eliminarCasa',['id'=>$casa->id]) }}" method="post">										    	
-												    {{method_field('DELETE')}}	
-												    {{csrf_field()}}	
-												    <button type="submit" class="ui button basic red"><i class="trash icon"></i></button>
-											    </form>
+											    <a id="removerElemento{{$casa->id}}"  class="ui button basic red"><i class="trash icon"></i></a>
 											</div>
 										</div>
-
 									</td>
 								</tr>
 								@endforeach
@@ -92,14 +81,9 @@
 </div>
 @include('casas.create',['errors' => $errors])
 @endsection
-
 @section('scripts')
-	<script>
-		@parent
-		$(document).ready(function() {
-
-		});
-	</script>
+	@parent
+	@include('removeOption',['elementos'=>$condominio->casas,'ruta'=>'eliminarCasa'])
 @stop
 
 

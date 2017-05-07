@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\GastoStoreRequest;
 use App\Http\Requests\GastoExtraStoreRequest;
 use App\Http\Requests\GastoExtraUpdateRequest;
+use App\Http\Requests\PasswordConfirmationRequest;
 use App\Gasto;
 use App\Concepto;
 use Carbon\Carbon;
@@ -74,11 +75,12 @@ class GastoCtrl extends Controller
         }
         return redirect()->back()->with(['message'=>'Gasto Extraordinario no registrado.','type'=>'error']);
     }
-    public function eliminarGastoExtraordinario($anio,$id)
+    public function eliminarGastoExtraordinario($id,PasswordConfirmationRequest $request)
     {
-        $gastoExtraordinario = $this->gasto->find($id);
-        if ($gastoExtraordinario->delete()) {
-            return redirect()->back()->with(['message'=>'Ingreso Extraordinario eliminado.','type'=>'success']);
+        if ($gastoExtraordinario = $this->gasto->find($id)) {
+           if ($gastoExtraordinario->delete()) {
+                return redirect()->back()->with(['message'=>'Ingreso Extraordinario eliminado.','type'=>'success']);
+            }
         }
         return redirect()->back()->with(['message'=>'Ingreso Extraordinario no eliminado.','type'=>'error']);
     }

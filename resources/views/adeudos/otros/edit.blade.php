@@ -7,8 +7,8 @@
 				<div class="ui segments">
 					<div class="ui green segment"> 
 						<h2 class="ui center aligned icon header">
-							<i class="dollar icon"></i>
-							Editar Adeudo de {{$otroAdeudo->casa->nombre}}
+							<i class="dollar circular icon"></i>
+							Editar Adeudo de <strong class="ui header green">{{$otroAdeudo->casa->nombre}}</strong>
 						</h2>
 						<form class="ui form large equal width" action="{{route('actualizarOtroAdeudo',['anio'=> $anio,'id'=>$otroAdeudo->id])}}" method="POST">
 							{{ method_field('PUT') }}

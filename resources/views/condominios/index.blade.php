@@ -26,37 +26,26 @@
 					<td>{{$condominio->id}}</td>
 					<td>{{$condominio->nombre}}</td>
 					<td class="right aligned">
-						<a class="removerCondominio" data-id="{{$condominio->id}}" data-name="{{$condominio->nombre}}"><i class="icon remove"></i></a>
+						<a id="removerElemento{{$condominio->id}}" ><i class="icon remove"></i></a>
 						<a href="{{ route('editarCondominio',['id'=>$condominio->id]) }}"><i class="icon edit"></i></a>
 					</td>
-				</tr>			
+				</tr>	
 				@endforeach
 			</tbody>
 		</table>  
 	</div>
 </div>
+
 @include('condominios.create',['errors' => $errors])
-@include('condominios.remove')
 @endsection
 @section('scripts')
  	@parent
-<script>
-	$(document).ready(function() {
-		$('#nuevoCondominio').click(function(arg) {
-			$('#modalNuevoCondominio').modal('show');			
+	<script>
+		$(document).ready(function() {
+			$('#nuevoCondominio').click(function(arg) {
+				$('#modalNuevoCondominio').modal('show');			
+			});
 		});
-		$('.removerCondominio').click(function(arg) {
-			$('#modalEliminarCondominio').modal('show');			
-			$("input[name=id]").val($(this).data('id'));
-			console.log("$(this).data('name')", $(this).data('name'));
-			$("#nombreCondominio").text($(this).data('name'));
-		});
-		@if ($errors->has('nombre'))
-			$('#modalNuevoCondominio').modal('show');			
-		@endif
-		@if ($errors->has('passoword'))
-			$('#modalEliminarCondominio').modal('show');			
-		@endif
-	});
-</script>
+	</script>
+	@include('removeOption',['elementos'=>$condominios,'ruta'=>'eliminarCondominio'])
 @stop

@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdeudoCasaStoreRequest extends FormRequest
+class PasswordUpdateRequest extends FormRequest
 {
-    protected $errorBag = 'otroAdeudoStore';
+    protected $errorBag = 'contraseniaUpdate';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,8 @@ class AdeudoCasaStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'concepto'      => 'required|max:255',
-            'cantidad'      =>'numeric',
-            'casa_id'       =>'required|exists:casas,id',
+            'password' => 'required|password_valid',
+            'new_password' => 'required|confirmed'
         ];
     }
 }

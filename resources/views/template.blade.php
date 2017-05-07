@@ -17,9 +17,10 @@
 
 </head>
 <body>
+	<div class="puntitos"></div>
 	<div class="ui attached inverted stackable menu">
 		<div class="ui container">
-			<a class="item">
+			<a href="{{ route('principal') }}" class="item">
 				<img src="{{ asset('img/logo.png') }}" class="ui" width="50px" alt="">&nbsp; Condominios
 			</a>
 			{{-- <a class="item">
@@ -62,13 +63,20 @@
 			@endif
 			<div class="menu right">
 				@if (!Auth::guest())
+					<a href="{{ route('mostrarCuentas') }}" class="item item-hover">
+						<i class="credit card alternative icon"></i>
+						<span class="btn-title">
+							Cuentas
+						</span>
+					</a>
+
 					<a href="{{ route('mostrarConceptos') }}" class="item item-hover">
 						<i class="book icon"></i>
 						<span class="btn-title">
 							Conceptos
 						</span>
 					</a>
-					<a  class="item item-hover">
+					<a  class="cambiarContrasenia item item-hover">
 						<i class="privacy  icon"></i>
 						<span class="btn-title">
 							Cambiar Contraseña
@@ -168,6 +176,7 @@
 						</div>
 					@endif
 					@include('condominios.create',['errors' => $errors])
+					@include('usuario.password',['errors' => $errors])
 					@section('contenido')
 					@show
 				</div>
@@ -194,4 +203,3 @@
 	@show
 </body>
 </html>
-

@@ -27,6 +27,9 @@ class CasaStoreRequest extends FormRequest
         return [
             'nombre'        => 'required|max:255',
             'contacto'      =>'max:255',
+            'email'         => 'nullable|email',
+            'telefono'         => 'nullable|numeric',
+            'celular'         => 'nullable|numeric',
             'condominio_id' =>'required|exists:condominios,id',
         ];
     }

@@ -6,49 +6,49 @@
 	</div>
 	<div class="content">
 		{{ csrf_field() }}
-		<input type="hidden" name="anio" value="{{$anio}}">
+		<input type="hidden" name="form" value="modal">
 		<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('concepto')?'error':''}}">
+			<div class="twelve wide field  {{$errors->gastoExtraStore->has('concepto') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Concepto
 					</div>
 				    <input type="text" name="concepto" value="{{old('concepto')}}" placeholder="Concepto">
 				</div>
-				@if ($errors->ingresoExtraStore->has('concepto'))
+				@if ($errors->gastoExtraStore->has('concepto') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
-						{{$errors->ingresoExtraStore->first('concepto')}}		
+						{{$errors->gastoExtraStore->first('concepto')}}		
 				    </div>
 				@endif
 			</div>		
 		</div>		
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('cantidad')?'error':''}}">
+			<div class="twelve wide field  {{$errors->gastoExtraStore->has('cantidad') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Cantidad
 					</div>
 				    <input type="text" name="cantidad" value="{{old('cantidad')}}" placeholder="Cantidad">
 				</div>
-				@if ($errors->ingresoExtraStore->has('cantidad'))
+				@if ($errors->gastoExtraStore->has('cantidad') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
-						{{$errors->ingresoExtraStore->first('cantidad')}}		
+						{{$errors->gastoExtraStore->first('cantidad')}}		
 				    </div>
 				@endif
 			</div>		
 		</div>		
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->ingresoExtraStore->has('fecha')?'error':''}}">
+			<div class="twelve wide field  {{$errors->gastoExtraStore->has('fecha') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Fecha
 					</div>
-				    <input type="date" name="fecha" value="{{old('fecha')?old('fecha'): \Carbon\Carbon::now()->year($anio)->toDateString()}}" placeholder="Fecha">
+				    <input type="date" name="fecha" value="{{old('fecha')?old('fecha'): \Date::now()->year($anio)->toDateString()}}" placeholder="Fecha">
 				</div>
-				@if ($errors->ingresoExtraStore->has('fecha'))
+				@if ($errors->gastoExtraStore->has('fecha') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
-						{{$errors->ingresoExtraStore->first('fecha')}}		
+						{{$errors->gastoExtraStore->first('fecha')}}		
 				    </div>
 				@endif
 			</div>		
@@ -70,7 +70,7 @@
 		$('.nuevoGastoExtra').click(function(arg) {
 			$('#modalNuevoGastoExtra').modal('show');			
 		});
-		@if (count($errors->ingresoExtraStore))
+		@if (count($errors->gastoExtraStore) > 0 && old('form') == 'modal')
 			$('#modalNuevoGastoExtra').modal('show');			
 		@endif
 	});

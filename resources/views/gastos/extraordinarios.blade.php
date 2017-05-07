@@ -74,16 +74,54 @@
 										<div class="options">
 											<div class="ui small basic icon buttons">
 												<a href="{{ route('editarGastoExtraordinario',['anio'=>$anio,'id'=>$gastoExt->id]) }}" class="ui button basic green"><i class="edit icon"></i></a>
-												<form action="{{ route('eliminarGastoExtraordinario',['anio'=>$anio,'id'=>$gastoExt->id]) }}" method="post">										    	
-													{{method_field('DELETE')}}	
-													{{csrf_field()}}	
-													<button type="submit" class="ui button basic red"><i class="trash icon"></i></button>
-												</form>
+												<a id="removerElemento{{$gastoExt->id}}"  class="ui button basic red"><i class="trash icon"></i></a>
 											</div>
 										</div>
 									</td>
 								</tr>
 								@endforeach
+								<form action="{{route('guardarGastoExtraordinario',compact('anio'))}}" method="POST" class="form-inline">
+									{{ csrf_field() }}
+									<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
+									<input type="hidden" name="form" value="table">
+									<tr class="agregar active">
+										<td>
+											<div class="ui input mini {{$errors->gastoExtraStore->has('concepto') && old('form') == 'table'?' error':''}}">
+												<input 	type="text" 
+														autocomplete="off" 
+														class="input-table" 
+														name="concepto" 
+														placeholder="Concepto" 
+														value="{{old('concepto')? old('concepto'):''}}">
+											</div>										
+										</td>
+										<td>
+											<div class="ui input mini {{$errors->gastoExtraStore->has('cantidad') && old('form') == 'table'?' error':''}}">
+												<input 	type="number" 
+														autocomplete="off" 
+														class="input-table" 
+														name="cantidad" 
+														placeholder="Cantidad" 
+														value="{{old('cantidad')? old('cantidad'):''}}">
+											</div>										
+										</td>
+										<td class="cell-action">
+											<div class="ui input mini {{$errors->gastoExtraStore->has('cantidad') && old('form') == 'table'?' error':''}}">
+												<input 	type="date" 
+														autocomplete="off" 
+														class="input-table" 
+														name="fecha" 
+														placeholder="Fecha" 
+														value="{{old('fecha')? old('fecha'):\Date::now()->year($anio)->toDateString()}}">
+											</div>	
+											<div class="options">
+												<div class="ui icon buttons">
+													<button class="ui button green"><i class="plus icon"></i></button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</form>
 							</tbody>
 						</table>
 					</div>
@@ -93,5 +131,10 @@
 	</div>
 </div>
 @include('gastos.extraordinarios.create',compact('errors','anio','condominio'))
+@endsection
+
+@section('scripts')
+	@parent
+	@include('removeOption',['elementos'=>$gastosExtraordinarios,'ruta'=>'eliminarGastoExtraordinario'])
 @endsection
 

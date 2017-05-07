@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PagoStoreRequest;
 use App\Http\Requests\IngresoExtraStoreRequest;
 use App\Http\Requests\IngresoExtraUpdateRequest;
+use App\Http\Requests\PasswordConfirmationRequest;
 use App\Pago;
 use App\Condominio;
 use Carbon\Carbon;
@@ -91,7 +92,7 @@ class IngresosCtrl extends Controller
         }
         return redirect()->back()->with(['message'=>'Ingreso Extraordinario no registrado.','type'=>'error']);
     }
-    public function eliminarIngresoExtraordinario($anio,$id)
+    public function eliminarIngresoExtraordinario($id,PasswordConfirmationRequest $request)
     {
         $ingresoExtraordinario = $this->pago->find($id);
         if ($ingresoExtraordinario->delete()) {

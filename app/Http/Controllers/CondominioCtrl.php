@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\PasswordConfirmationRequest;
 use App\Http\Requests\CondominioShowRequest;
 use App\Http\Requests\CondominioStoreRequest;
 use Illuminate\Http\Request;
@@ -13,12 +14,13 @@ class CondominioCtrl extends Controller
     }
     public function bienvenido()
     {
-        return view('bienvenido');
+        $condominios = Auth::user()->condominios;
+        return view('bienvenido',compact('condominios'));
     }
 
     public function mostrar($id)
     {
-    	$condominio = $this->condominio->id($id)->first();
+    	$condominio = $this->condominio->id($id)->with('casas')->first();
         return view('condominios.show',compact('condominio'));
     }
 
@@ -73,12 +75,16 @@ class CondominioCtrl extends Controller
             }
         }       
     }
-    public function eliminar(CondominioShowRequest $request)
+    public function eliminar($id, PasswordConfirmationRequest $request)
     {
-    	$condominio = $this->condominio->id($request->id)->first();
-    	if ($condominio->delete()) {
-    		return redirect()->route('mostrarCondominios');	
-	    }
-    	return redirect()->route('mostrarCondominios');	
+    	if ($condominio = $this->condominio->id($id)->first()) {
+            if ($condominio->id == session()->get('condominio')->id) {
+                session()->forget('condominio');
+            }
+            if ($condominio->delete()) {
+                return redirect()->route('bienvenido')->with(['message'=>'Condominio borrado','type'=>'success']);  
+            }
+        }
+    	return redirect()->route('bienvenido')->with(['message'=>'El condominio no pudo ser borrado. ','type'=>'warning']);	
     }
 }

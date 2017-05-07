@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CasaStoreRequest;
+use App\Http\Requests\PasswordConfirmationRequest;
 use App\Http\Requests\CasaUpdateRequest;
 use App\Casa;
 
@@ -30,12 +31,13 @@ class CasaCtrl extends Controller
     	$casa->save();
         return redirect()->route('mostrarCondominio',['id'=>$casa->condominio_id])->with(['message'=>'Casa actualizada correctamente','type'=>'success']);
     }
-    public function eliminar($id)
+    public function eliminar($id,PasswordConfirmationRequest $request)
     {
-    	$casa = $this->casa->id($id)->first();
-    	if ($casa->delete()) {
-        	return redirect()->back()->with(['message'=>'Casa eliminada correctamente','type'=>'success']);
-	    }
+    	if ($casa = $this->casa->find($id)) {
+            if ($casa->delete()) {
+            	return redirect()->back()->with(['message'=>'Casa eliminada correctamente','type'=>'success']);
+            }
+        }
         return redirect()->back()->with(['message'=>'No es posible borrar la casa','type'=>'error']);
     }
 }

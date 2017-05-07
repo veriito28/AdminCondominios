@@ -1,4 +1,4 @@
-<form class="ui modal ui form large equal width" id="modalNuevaCasa" action="{{route('guardarCasa')}}" method="POST">
+<form class="ui modal ui form large equal width" id="modalNuevaCasa" action="{{route('guardarCasa')}}" method="POST" novalidate>
 	<i class="close icon"></i>
 	<div class="header">
 		<i class="home outline icon"></i>

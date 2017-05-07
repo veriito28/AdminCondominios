@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
+use App\FechaTrait;
 use App\Casa;
 use App\Condominio;
 use App\Adeudo;
@@ -12,9 +13,10 @@ use DB;
 
 class Pago extends Model
 {
-    use IdTrait;
-    use SoftDeletes;
+    use IdTrait, FechaTrait, SoftDeletes;
+
     protected $dates = ['fecha','deleted_at'];
+
     protected $fillable = [
 		'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'casa_id', 'adeudo_id'
     ];
@@ -39,22 +41,15 @@ class Pago extends Model
     {
         return $query->where('concepto','adelantadas');
     }
-    public function scopeFecha($query,$fecha)
+    public function scopeCasaId($query,$id)
     {
-        return $query->where(DB::raw('YEAR(fecha)'),$fecha->year)->where(DB::raw('MONTH(fecha)'),$fecha->month);
-    }
-    public function scopeHasta($query,$fecha)
-    {
-        return $query->where(DB::raw('fecha'),'<',$fecha);
+        return $query->where('casa_id',$id);
     }
     public function scopeExtraordinarios($query)
     {
         return $query->where('tipo','E');
     }
-     public function scopeAnio($query,$anio)
-    {
-        return $query->where(DB::raw('YEAR(fecha)'),$anio);
-    }
+
     public function scopeCondominioId($query,$id)
     {
         return $query->where('condominio_id',$id);

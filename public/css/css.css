@@ -62,7 +62,26 @@ body{
 	background-size:  100vw auto;
     background-attachment: fixed;
 	background-repeat: no-repeat;
+	position: relative;
+	height: 100%;
 }
+.menu{
+	position: relative;
+}
+/*.puntitos{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0;
+	left: 0;
+    background: url(../img/dott.png)repeat 0px 0px;
+    background-size: 2px;
+    -webkit-background-size: 2px;
+    -moz-background-size: 2px;
+    -o-background-size: 2px;
+    -ms-background-size: 2px;
+    padding: 1em 0;
+}*/
 .ui.grid.container,.container {
     width: 96%!important;
 }
@@ -147,3 +166,14 @@ body{
 .ui.table.table-ingresos thead tr:first-child{
 	background: rgb(0, 32, 96)!important;
 }
+.ui.dropdown .menu>.item>.image, .ui.dropdown .menu>.item>img, .ui.dropdown>.text>.image, .ui.dropdown>.text>img {
+    max-width: 2em;
+    max-height: auto;
+}
+
+.options .ui.icon.button, .ui.icon.buttons .button {
+    padding: .4em .48571429em;
+}
+.agregar .ui.input {
+    width: 87%;
+ }

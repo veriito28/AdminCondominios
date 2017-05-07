@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdeudoCasaStoreRequest;
 use App\Http\Requests\AdeudoCasaUpdateRequest;
+use App\Http\Requests\PasswordConfirmationRequest;
+
 use App\Adeudo;
 use App\Condominio;
 use Carbon\Carbon;
@@ -82,11 +84,12 @@ class AdeudoCtrl extends Controller
         }
         return redirect()->back()->with(['message'=>'Adeudo no registrado.','type'=>'error']);
     }
-    public function eliminarOtroAdeudo($anio,$id)
+    public function eliminarOtroAdeudo($id,PasswordConfirmationRequest $request)
     {
-        $otroAdeudo = $this->adeudo->find($id);
-        if ($otroAdeudo->delete()) {
-            return redirect()->back()->with(['message'=>'Adeudo eliminado.','type'=>'success']);
+        if ($otroAdeudo = $this->adeudo->find($id)) {
+            if ($otroAdeudo->delete()) {
+                return redirect()->back()->with(['message'=>'Adeudo eliminado.','type'=>'success']);
+            }
         }
         return redirect()->back()->with(['message'=>'Adeudo no eliminado.','type'=>'error']);
     }

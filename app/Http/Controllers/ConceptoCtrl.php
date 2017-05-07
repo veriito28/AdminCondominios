@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ConceptoStoreRequest;
 use App\Http\Requests\ConceptoUptadeRequest;
+use App\Http\Requests\PasswordConfirmationRequest;
+
 use App\Concepto;
 
 class ConceptoCtrl extends Controller
@@ -35,7 +37,7 @@ class ConceptoCtrl extends Controller
     	$concepto->save();
         return redirect()->route('mostrarConceptos')->with(['message'=>'concepto actualizada correctamente','type'=>'success']);
     }
-    public function eliminar($id)
+    public function eliminar($id,PasswordConfirmationRequest $request)
     {
     	$concepto = $this->concepto->id($id)->first();
     	if ($concepto->delete()) {
