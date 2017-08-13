@@ -20,10 +20,10 @@
 						<table class="ui green celled table">
 							<thead >
 								<tr>
-									<th colspan="3">
+									<th colspan="4">
 										<h3>Todos los Conceptos
 											<a href="#!" class="nuevoConcepto ui right floated small black icon button">
-												<i class="large icons">
+												<i class=" icons">
 												    <i class="home icon"></i>
 												    <i class="inverted corner add icon"></i>
 												</i>
@@ -37,15 +37,27 @@
 										#	
 									</th>
 									<th>
+										Tipo	
+									</th>
+									<th>
 										Nombre
 									</th>
 								</tr>
 							</thead>
 							<tbody>
+							@php
+								$tipo = [
+									'G'=>'Gasto',
+									'A'=>'Aduedo',
+								];
+							@endphp
 								@foreach ($conceptos as $concepto)
 								<tr>
 									<td class="cell-action">
 										{{$concepto->id}}
+									</td>
+									<td class="cell-action">
+										{{$tipo[$concepto->tipo]}}
 									</td>
 									<td class="cell-action">
 										{{$concepto->nombre}}							
@@ -60,6 +72,50 @@
 									</td>
 								</tr>
 								@endforeach
+								@php
+									$tipos = [
+										['id'=>'G','nombre'=>'Gasto'],
+										['id'=>'A','nombre'=>'Aduedo'],
+									];
+								@endphp
+								<form name="formTable" action="{{route('guardarConcepto')}}" method="POST" class="form-inline">
+									{{ csrf_field() }}
+									<input type="hidden" name="form" value="table">
+									<tr class="agregar active">
+										<td>
+											
+										</td>
+										<td>
+											<div class="ui input mini ">
+												<div class="ui selection dropdown {{$errors->conceptoStore->has('tipo') && old('form') == 'table'?' error':''}}">
+													<input type="hidden" name="tipo" value="{{old('tipo')}}">
+													<i class="dropdown icon"></i>
+													<div class="default text">Seleccione una opción</div>
+													<div class="menu">
+														@foreach ($tipos as $tipo)
+															<div class="item" data-value="{{$tipo['id']}}">{{$tipo['nombre']}}</div>
+														@endforeach
+													</div>
+												</div>
+											</div>	
+										</td>
+										<td class="cell-action">
+											<div class="ui input mini {{$errors->casaStore->has('nombre') && old('form') == 'table'?' error':''}}">
+												<input 	type="text" 
+														autocomplete="off" 
+														class="input-table" 
+														name="nombre" 
+														placeholder="Nombre" 
+														value="{{old('nombre')}}">
+											</div>		
+											<div class="options">
+												<div class="ui icon buttons">
+													<button class="ui button green"><i class="plus icon"></i></button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</form>
 							</tbody>
 						</table>
 					</div>

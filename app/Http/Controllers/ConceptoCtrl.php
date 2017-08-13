@@ -22,7 +22,16 @@ class ConceptoCtrl extends Controller
     }
     public function guardar(ConceptoStoreRequest $request)
     {
-    	$concepto = $this->concepto->create($request->all());
+    	$datos = $request->all();
+        if ($datos['tipo'] == 'A') {
+            if (session()->has('condominio')) {
+                $condominio =session()->get('condominio');
+                $datos['condominio_id'] = $condominio->id;
+            }else{
+                return redirect()->back()->with(['message'=>'Condominio no seleccionado','type'=>'warning']);
+            }       
+        }
+        $concepto = $this->concepto->create($datos);
         return redirect()->back()->with(['message'=>'Concepto agregado correctamente','type'=>'success']);
     }
     public function editar($id)
@@ -35,13 +44,13 @@ class ConceptoCtrl extends Controller
     	$concepto = $this->concepto->id($id)->first();
     	$concepto->fill($request->all());
     	$concepto->save();
-        return redirect()->route('mostrarConceptos')->with(['message'=>'concepto actualizada correctamente','type'=>'success']);
+        return redirect()->route('mostrarConceptos')->with(['message'=>'Concepto actualizada correctamente','type'=>'success']);
     }
     public function eliminar($id,PasswordConfirmationRequest $request)
     {
     	$concepto = $this->concepto->id($id)->first();
     	if ($concepto->delete()) {
-        	return redirect()->back()->with(['message'=>'concepto eliminada correctamente','type'=>'success']);
+        	return redirect()->back()->with(['message'=>'Concepto eliminada correctamente','type'=>'success']);
 	    }
         return redirect()->back()->with(['message'=>'No es posible borrar la concepto','type'=>'error']);
     }

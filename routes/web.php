@@ -52,11 +52,16 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 		Route::name('mostrarCondominio')->get('/{id}/show','CondominioCtrl@mostrar');
 		Route::name('editarCondominio')->get('/{id}/edit','CondominioCtrl@editar');
 		Route::name('eliminarCondominio')->delete('/delete/{id}','CondominioCtrl@eliminar');
+		Route::name('cargarCasas')->post('casas/excel','CasaCtrl@cargarExcel');
+		Route::name('guardarCasas')->post('casas/excel/save','CasaCtrl@guardarExcel');
+		
 		Route::name('guardarCasa')->post('casas','CasaCtrl@guardar');
 		Route::name('eliminarCasa')->delete('casas/{id}','CasaCtrl@eliminar');
 		
 		Route::name('editarCasa')->get('casas/{id}/editar','CasaCtrl@editar');
 		Route::name('actualizarCasa')->put('casas/{id}','CasaCtrl@actualizar');
+		
+		Route::name('pagosMensuales')->get('ingresos/pagosMensuales/{mes?}/{anio?}','IngresosCtrl@pagosMensuales');
 		
 		Route::name('pagos')->get('ingresos/pagos/{tipo?}/{anio?}','IngresosCtrl@pagos');
 		Route::name('guardarPagos')->post('ingresos/pagos/{tipo}/{anio?}','IngresosCtrl@guardarPagos');

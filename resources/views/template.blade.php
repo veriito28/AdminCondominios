@@ -13,7 +13,8 @@
 	<link rel="stylesheet" href="{{ asset('css/css.css') }}"/>
 
 	<!-- Scripts -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+	<script src="{{ asset('js/jquery.js') }}"></script>
 
 </head>
 <body>
@@ -57,9 +58,9 @@
 				</div>
 				@if ($seleccionado)
 					<a href="{{ route('mostrarCondominio',['id_condominio'=>$seleccionado->id]) }}" class="item">
-						<i class="building outline icon"></i>{{$seleccionado->nombre}} 
+						<i class="building outline icon"></i>{{$seleccionado->nombre}}
 					</a>
-				@endif			
+				@endif
 			@endif
 			<div class="menu right">
 				@if (!Auth::guest())
@@ -97,89 +98,122 @@
 		</div>
 	</div>
 	<div class="ui ">
-		<div class="ui grid container centered">
+		<div class="ui grid centered">
 			@if (!Auth::guest())
 				@if ($seleccionado)
 					<div class="two wide column column-menu">
-						<div class="ui vertical side-bar inverted menu left floated">
-							<p class="item active green">
-								<i class="icons icon">
-									<i class="dollar icon"></i>
-									<i class="corner inverted reply icon"></i>
-								</i>
-								INGRESOS
-							</p>
-							<a href="{{route('pagos',['tipo'=>'mensualidad'])}}" class="item  {{Request::is('usuario/condominio/ingresos/pagos/*')?'active orange':''}}">
-								Pagos
-							</a>
-							<a href="{{route('otrosPagos')}}" class="item {{Request::is('usuario/condominio/ingresos/otros*')?'active orange':''}}">							
-								Otros Pagos
-							</a>
-							<a href="{{route('ingresosExtraordinarios')}}" class="item {{Request::is('usuario/condominio/ingresos/extraordinarios*')?'active orange':''}}">
-								Ingresos Ext.
-							</a>
-							<p class="item active green">
-								<i class="icons icon">
-									<i class=" dollar icon"></i>
-									<i class="corner inverted share icon"></i>
-								</i>
-								GASTOS
-							</p>
-							<a href="{{route('gastosOrdinarios')}}" class="item {{Request::is('usuario/condominio/gastos/ordinarios*')?'active orange':''}}">
-								Ordinarios
-							</a>
-							<a href="{{route('gastosExtraordinarios')}}" class="item {{Request::is('usuario/condominio/gastos/extraordinarios*')?'active orange':''}}">
-								Extraordinarios
-							</a>
-							<p class="item active green">
-								<i class="icons icon ">
-									<i class=" dollar icon"></i>
-									<i class="corner alarm  inverted  icon"></i>
-								</i>
-								ADEUDOS
-							</p>
-							<a href="{{route('adeudosMensuales')}}" class="item {{Request::is('usuario/condominio/adeudos/mensualidades*')?'active orange':''}}">							
-								Mensualidades
-							</a>
-							<a href="{{route('otrosAdeudos')}}" class="item {{Request::is('usuario/condominio/adeudos/otros*')?'active orange':''}}">							
-								Otros
-							</a>
-
-							<p class="item active green">
-								<i class="file pdf outline icon"></i>
-								REPORTES
-							</p>
-							<a href="{{route('reporteGeneral')}}" class="item {{Request::is('usuario/condominio/reportes/general*')?'active orange':''}}">							
-								General
-							</a>
-							<a href="{{route('reporteIngresos')}}" class="item {{Request::is('usuario/condominio/reportes/ingresos*')?'active orange':''}}">							
-								Ingresos
-							</a>
+						<div class="ui vertical accordion side-bar inverted menu left floated">
+							<div class="item active {{Request::is('usuario/condominio/ingresos/*')?' orange':'green'}}">
+								<a class="title {{Request::is('usuario/condominio/ingresos/*')?' active':''}}">
+									<i class="icons icon">
+										<i class="dollar icon"></i>
+										<i class="corner inverted reply icon"></i>
+									</i>
+									<span class="text">	INGRESOS</span>
+									<i class="icon dropdown"></i>
+								</a>
+								<div class="content {{Request::is('usuario/condominio/ingresos/*')?' active':''}}">
+									@php
+										$conceptos = session()->get('condominio')->conceptos;
+									@endphp
+									@foreach ($conceptos as $concepto)
+										<a href="{{route('pagos',['tipo'=>$concepto->slug_nombre])}}" class="item  {{Request::is('usuario/condominio/ingresos/pagos/'.$concepto->slug_nombre)?'active yellow':''}}">
+											{{$concepto->nombre}}
+										</a>
+									@endforeach
+									<a href="{{route('otrosPagos')}}" class="item {{Request::is('usuario/condominio/ingresos/otros*')?'active yellow':''}}">
+										Otros Pagos
+									</a>
+									<a href="{{route('ingresosExtraordinarios')}}" class="item {{Request::is('usuario/condominio/ingresos/extraordinarios*')?'active yellow':''}}">
+										Ingresos Ext.
+									</a>	
+								</div>
+							</div>
+							<div class="item active {{Request::is('usuario/condominio/gastos/*')?' orange':'green'}}">
+								<a  class="title {{Request::is('usuario/condominio/gastos/*')?' active':''}}">
+									<i class="icons icon">
+										<i class=" dollar icon"></i>
+										<i class="corner inverted share icon"></i>
+									</i>
+									<span class="text">	EGRESOS</span>
+									<i class="icon dropdown"></i>
+								</a>
+								<div class="content {{Request::is('usuario/condominio/gastos/*')?' active':''}}">	
+									<a href="{{route('gastosOrdinarios')}}" class="item {{Request::is('usuario/condominio/gastos/ordinarios*')?'active yellow':''}}">
+										Ordinarios
+									</a>
+									<a href="{{route('gastosExtraordinarios')}}" class="item {{Request::is('usuario/condominio/gastos/extraordinarios*')?'active yellow':''}}">
+										Extraordinarios
+									</a>
+								</div>
+							</div>
+							
+							<div class="item active {{Request::is('usuario/condominio/adeudos/*')?' orange':'green'}}">
+								<a  class="title {{Request::is('usuario/condominio/adeudos/*')?' active':''}}">
+									<i class="icons icon ">
+										<i class=" dollar icon"></i>
+										<i class="corner alarm  inverted  icon"></i>
+									</i>
+									<span class="text">	ADEUDOS</span>
+									<i class="icon dropdown"></i>
+								</a>
+								<div class="content {{Request::is('usuario/condominio/adeudos/*')?' active':''}}">	
+									<a href="{{route('adeudosMensuales')}}" class="item {{Request::is('usuario/condominio/adeudos/mensualidades*')?'active yellow':''}}">
+										Mensuales
+									</a>
+									<a href="{{route('otrosAdeudos')}}" class="item {{Request::is('usuario/condominio/adeudos/otros*')?'active yellow':''}}">
+										Otros
+									</a>
+								</div>
+							</div>
+							
+							<div class="item active {{Request::is('usuario/condominio/reportes/*')?' orange':'green'}}">
+								<a  class="title {{Request::is('usuario/condominio/reportes/*')?' active':''}}">
+									<i class="file pdf outline icon"></i>
+									<span class="text">	REPORTES</span>
+									<i class="icon dropdown"></i>
+								</a>
+								<div class="content {{Request::is('usuario/condominio/reportes/*')?' active':''}}">	
+									<a href="{{route('reporteGeneral')}}" class="item {{Request::is('usuario/condominio/reportes/general*')?'active yellow':''}}">
+										General
+									</a>
+									<a href="{{route('reporteIngresos')}}" class="item {{Request::is('usuario/condominio/reportes/ingresos*')?'active yellow':''}}">
+										Ingresos
+									</a>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 				@endif
 				<div class="fourteen wide column">
-					@if(session()->has('message'))
-						<div class="ui  icon floating {{session()->get('type') == 'success'?'green':'red'}} message">
-							<i class="{{session()->get('type') == 'success'?'info':'warning '}} circle icon"></i>
-								<div class="header">
-									{{session()->get('message')}}
+					<div class="ui grid container centered">
+						<div class="sixteen wide column">
+							@if(session()->has('message'))
+								<div class="ui  icon floating {{session()->get('type') == 'success'?'green':'red'}} message">
+									<i class="{{session()->get('type') == 'success'?'info':'warning '}} circle icon"></i>
+										<div class="header">
+											{{session()->get('message')}}
+										</div>
 								</div>
-						</div>
-					@endif
-					@if($errors->count() > 0)
-						<div class="ui  icon floating red message">
-							<i class="warning circle icon"></i>
-								<div class="header">
-									{{$errors->first()}}
+							@endif
+							@if($errors->count() > 0)
+								<div class="ui  icon floating red message">
+									<i class="warning circle icon"></i>
+										<div class="header">
+											{{$errors->first()}}
+										</div>
 								</div>
+							@endif
+							@include('condominios.create',['errors' => $errors])
+							@include('usuario.password',['errors' => $errors])
+							@section('contenido')
+							@show
 						</div>
-					@endif
-					@include('condominios.create',['errors' => $errors])
-					@include('usuario.password',['errors' => $errors])
-					@section('contenido')
-					@show
+					</div>
 				</div>
+
+
 			@else
 				@section('contenido')
 				@show
@@ -189,17 +223,22 @@
 	<script src="{{ asset('semantic/semantic.min.js') }}"></script>
 	<script>
 		$(document).ready(function() {
+//			$('.fixed-action-btn').openFAB();
 			$('.ui.dropdown').dropdown();
 			$("input").focus(function() {
 				var vm = this;
 				setTimeout(function() {
 					$(vm).select();
-				},1);			
+				},1);
 			});
-
+			$('.accordion').accordion({
+				selector:{
+					tigger:'.title .icon'
+				}
+			});
 		});
 	</script>
-	@section('scripts')				
+	@section('scripts')
 	@show
 </body>
 </html>

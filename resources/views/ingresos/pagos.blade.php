@@ -16,7 +16,7 @@
 						</div>
 						<h2 class="ui left header pull-left">
 							<i class="circular building icon"></i>
-							Pagos Mensuales <span class="ui header green">"{{$condominio->nombre}}"</span>- {{$anio}}
+							{{$concepto->nombre}} <span class="ui header green">"{{$condominio->nombre}}"</span>- {{$anio}}
 						</h2>
 						<form action="{{ route('guardarPagos',['tipo'=>$tipo,'anio'=> $anio]) }}" method="POST">
 							{{ csrf_field() }}
@@ -24,7 +24,7 @@
 								<thead >
 									<tr>
 										<th colspan="13">
-											<h3>Pagos Mensuales</h3>
+											<h3>{{$concepto->nombre}}</h3>
 											<div class="ui form">
 												<div class="fields inline">
 													<div class="ui floating labeled icon dropdown button">
@@ -40,10 +40,7 @@
 												    		@endfor
 														</div>
 													</div>
-													<button  type="submit" class="ui green button">
-														GUARDAR
-													</button>
-													<div class="field">
+													{{-- <div class="field">
 														<div class="ui labeled input">
 														  	<div class="ui label">
 														  	  	Del
@@ -56,8 +53,8 @@
 															</div>
 														  	<input type="text" placeholder="Al" readonly="" value="{{$condominio->casas->max('id')}}">
 														</div>
-												   	</div>
-													<a href="{{ route('pagos',['tipo'=>'mensualidad','anio'=> $anio])}}" type="submit" class="ui primary button  {{Request::is('usuario/condominio/ingresos/pagos/mensualidad*')?'hide':''}}">
+												   	</div> --}}
+													{{-- <a href="{{ route('pagos',['tipo'=>'mensualidad','anio'=> $anio])}}" type="submit" class="ui primary button  {{Request::is('usuario/condominio/ingresos/pagos/mensualidad*')?'hide':''}}">
 														NORMALES
 													</a>
 													<a href="{{ route('pagos',['tipo'=>'atradasas','anio'=> $anio])}}" type="submit" class="ui black button  {{Request::is('usuario/condominio/ingresos/pagos/atradasas*')?'hide':''}}">
@@ -65,7 +62,18 @@
 													</a>
 													<a href="{{ route('pagos',['tipo'=>'adelantadas','anio'=> $anio])}}" type="submit" class="ui orange button {{Request::is('usuario/condominio/ingresos/pagos/adelantadas*')?'hide':''}}">
 														ADELANTADAS
-													</a>
+													</a> --}}
+													<div class="field">
+														<div class="ui floating  labeled input">
+															<div class="ui label">
+															    Fecha Pago
+															</div>
+														    <input type="date" name="fecha_pago" value="{{old('fecha_pago')?old('fecha_pago'): \Carbon\Carbon::now()->toDateString()}}" placeholder="Fecha">
+														</div>
+													</div>
+													<button  type="submit" class="ui green button">
+														GUARDAR
+													</button>
 
 												</div>
 											</div>	
@@ -93,18 +101,34 @@
 								<tbody>
 									@foreach ($condominio->casas as $casa)
 									<tr>
-										<td class="cell-action">
+										<td class="cell-action" title="{{$casa->contacto}}">
 											{{$casa->nombre}}
 										</td>
 										@foreach ($meses as $mes => $index)
-											<td>
+											@php
+												$pago = $casa->pagos->first(function ($value, $key) use ($anio,$index,$concepto) {
+													return $value->fecha->month == $index 
+															&& $value->fecha->year == $anio
+															&& $value->adeudo->concepto_id == $concepto->id;
+												});
+												$valor = null;
+												$dif = null;
+												if(isset($pago)){
+													$valor =  $pago->cantidad;
+													$fecha_pago = \Carbon\Carbon::createFromDate($pago->fecha_pago->year,$pago->fecha_pago->month,1);
+													$dif = $fecha_pago->diffInDays($pago->fecha,false);
+
+												} 
+ 
+											@endphp
+											<td class="{{isset($dif) && doubleval($dif) > 0 ? 'positive':(isset($dif) && doubleval($dif) < 0 ?'error':(isset($dif)?'correct':''))}}">
 												<div class="ui input {{$errors->has($mes.'.'.$casa->id)?'error':''}}">
 													<input 	type="text" 
 															class="input-table" 
 															autocomplete="off" 
 															name="{{$mes}}[{{$casa->id}}]" 
 															placeholder="0.00" 
-															value="{{old($mes.'.'.$casa->id)? old($mes.'.'.$casa->id): (($val = doubleval($casa->pagos->first(function ($value, $key) use ($anio,$index,$tipo) {return $value->fecha->month == $index && $value->fecha->year == $anio && $value->concepto == $tipo;})['cantidad']))!=0?$val:'')}}">
+															value="{{old($mes.'.'.$casa->id)? old($mes.'.'.$casa->id): (doubleval($valor)!=0?$valor:'')}}">
 												</div>										
 											</td>
 										@endforeach

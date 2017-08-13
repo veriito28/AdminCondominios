@@ -7,15 +7,17 @@
 	<div class="content">
 		{{ csrf_field() }}
 		<input type="hidden" value="{{session()->get('condominio.id')}}" name="condominio_id">
+		<input type="hidden" name="form" value="modal">
+
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->casaStore->has('nombre')?'error':''}}">
+			<div class="twelve wide field  {{$errors->casaStore->has('nombre') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Nombre
 					</div>
 				    <input type="text" name="nombre" value="{{old('nombre')}}" placeholder="Nombre Casa">
 				</div>
-				@if ($errors->casaStore->has('nombre'))
+				@if ($errors->casaStore->has('nombre') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
 						{{$errors->casaStore->first('nombre')}}		
 				    </div>
@@ -23,14 +25,14 @@
 			</div>		
 		</div>
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->casaStore->has('contacto')?'error':''}}">
+			<div class="twelve wide field  {{$errors->casaStore->has('contacto') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Contacto
 					</div>
 					<input type="text" name="contacto" value="{{old('contacto')}}" placeholder="Contacto">
 				</div>
-				@if ($errors->casaStore->has('contacto'))
+				@if ($errors->casaStore->has('contacto') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
 						{{$errors->casaStore->first('contacto')}}		
 				    </div>
@@ -38,14 +40,14 @@
 			</div>
 		</div>
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->casaStore->has('email')?'error':''}}">
+			<div class="twelve wide field  {{$errors->casaStore->has('email') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 				  <div class="ui label">
 				    Correo Electronico
 				  </div>
 				    <input type="email" name="email" value="{{old('email')}}" placeholder="Correo Electronico">
 				</div>
-				@if ($errors->casaStore->has('email'))
+				@if ($errors->casaStore->has('email') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
 						{{$errors->casaStore->first('email')}}		
 				    </div>
@@ -53,14 +55,14 @@
 			</div>
 		</div>
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->casaStore->has('telefono')?'error':''}}">
+			<div class="twelve wide field  {{$errors->casaStore->has('telefono') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 						Teléfono
 					</div>
 				    <input type="tel" name="telefono" value="{{old('telefono')}}" placeholder="Telefono">
 				</div>
-				@if ($errors->casaStore->has('telefono'))
+				@if ($errors->casaStore->has('telefono') && old('form') == 'modal')
 					<div class="ui left left pointing red basic label">
 						{{$errors->casaStore->first('telefono')}}		
 				    </div>
@@ -68,14 +70,14 @@
 			</div>
 		</div>
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->casaStore->has('celular')?'error':''}}">
+			<div class="twelve wide field  {{$errors->casaStore->has('celular') && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 						Celular
 					</div>
 				    <input type="tel" name="celular" value="{{old('celular')}}" placeholder="Celular">
 				</div>
-				@if ($errors->casaStore->has('celular'))
+				@if ($errors->casaStore->has('celular') && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
 						{{$errors->casaStore->first('celular')}}		
 				    </div>
@@ -98,7 +100,7 @@
 		$('.nuevaCasa').click(function(arg) {
 			$('#modalNuevaCasa').modal('show');			
 		});
-		@if (count($errors->casaStore))
+		@if (count($errors->casaStore) && old('form') == 'modal')
 			$('#modalNuevaCasa').modal('show');			
 		@endif
 	});

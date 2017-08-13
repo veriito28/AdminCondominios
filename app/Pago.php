@@ -15,10 +15,10 @@ class Pago extends Model
 {
     use IdTrait, FechaTrait, SoftDeletes;
 
-    protected $dates = ['fecha','deleted_at'];
+    protected $dates = ['fecha','fecha_pago','deleted_at'];
 
     protected $fillable = [
-		'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'casa_id', 'adeudo_id'
+		'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'casa_id', 'adeudo_id','fecha_pago'
     ];
    
     public function scopeMensuales($query)

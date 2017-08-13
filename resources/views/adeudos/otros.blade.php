@@ -24,7 +24,7 @@
 										<div class="ui form form-inline pull-left">
 												<div class="fields inline">													
 													<div class="ui floating labeled icon dropdown button">
-														<i class="calendar  icon"></i>
+														<i class="calendar icon"></i>
 														<span class="text">{{$anio}}</span>
 														<div class="menu">
 															@for ($i = 2012; $i <= \Carbon\Carbon::now()->year ; $i++)
@@ -39,7 +39,7 @@
 												</div>
 											</div>	
 											<a href="#!" class="nuevoOtroAdeudo ui right floated small black icon button">
-												<i class="large icons">
+												<i class=" icons">
 													<i class="dollar icon"></i>
 													<i class="inverted corner add icon"></i>
 												</i>
@@ -134,7 +134,7 @@
 											</div>										
 										</td>
 										<td class="cell-action">
-											<div class="ui input mini {{$errors->otroAdeudoStore->has('cantidad') && old('form') == 'table'?' error':''}}">
+											<div class="ui input mini {{$errors->otroAdeudoStore->has('fecha') && old('form') == 'table'?' error':''}}">
 												<input 	type="date" 
 														autocomplete="off" 
 														class="input-table" 

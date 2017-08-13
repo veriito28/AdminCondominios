@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Validator;
 use Hash;
 use Auth;
+use App\Concepto;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -18,6 +19,13 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('password_valid', function ($attribute, $value, $parameters, $validator) {
             return Hash::check($value, Auth::user()->password);
         });
+        Validator::extend('unique_concepto', function($attribute, $value, $parameters, $validator) {
+            if (Concepto::slugNombre(str_slug($value))->first()) {
+                return false;
+            }
+            return true;
+        });
+
     }
 
     /**

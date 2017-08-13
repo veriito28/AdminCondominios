@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
 use App\FechaTrait;
 use App\Condominio;
+use App\Concepto;
 use App\Casa;
 use App\Pago;
 use DB;
@@ -17,7 +18,7 @@ class Adeudo extends Model
     protected $dates = ['fecha','deleted_at'];
 
     protected $fillable = [
-       'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'casa_id'
+       'concepto', 'cantidad', 'fecha', 'tipo', 'condominio_id', 'casa_id','concepto_id'
     ];
    	public function scopeMensualidades($query)
    	{
@@ -30,6 +31,10 @@ class Adeudo extends Model
     public function scopeCondominioId($query,$id)
     {
         return $query->where('adeudos.condominio_id',$id);
+    }
+     public function scopeConceptoId($query,$id)
+    {
+        return $query->where('adeudos.concepto_id',$id);
     }
     public function scopeCasaId($query,$id)
     {
@@ -108,5 +113,10 @@ class Adeudo extends Model
     public function pagos()
     {
       return $this->hasMany(Pago::class);
+    }
+  
+    public function concepto()
+    {
+      return $this->belongsTo(Concepto::class);
     }
 }

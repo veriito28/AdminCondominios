@@ -17,6 +17,8 @@ class CreateCondominiosTable extends Migration
         Schema::create('condominios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->string('direccion')->nullable();
+            $table->string('imagen')->default('/condominios/default.jpg');
             $table->timestamps();
             $table->softDeletes();
         });

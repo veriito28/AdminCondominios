@@ -65,20 +65,20 @@
 									</tr>
 								</thead>
 								<tbody>
-									@foreach ($conceptos as $concepto => $nombre)
+									@foreach ($conceptos as $concepto)
 									<tr>
 										<td class="cell-action">
-											{{$nombre}}
+											{{$concepto->nombre}}
 										</td>
 										@foreach ($meses as $mes => $index)
 											<td>
-												<div class="ui input {{$errors->has($mes.'.'.$concepto)?'error':''}}">
+												<div class="ui input {{$errors->has($mes.'.'.$concepto->id)?'error':''}}">
 													<input 	type="text" 
 															class="input-table" 
 															autocomplete="off" 
-															name="{{$mes}}[{{$concepto}}]" 
+															name="{{$mes}}[{{$concepto->id}}]" 
 															placeholder="0.00" 
-															value="{{old($mes.'.'.$concepto)? old($mes.'.'.$concepto): (($val = doubleval($adeudosMensuales->first(function ($value, $key) use ($anio,$index,$concepto) {return \Carbon\Carbon::parse($value->fecha)->month == $index && \Carbon\Carbon::parse($value->fecha)->year == $anio && $value->concepto == $concepto && $value->tipo == 'M';})['cantidad']))!=0?$val:'')}}">
+															value="{{old($mes.'.'.$concepto->id)? old($mes.'.'.$concepto->id): (($val = doubleval($adeudosMensuales->first(function ($value, $key) use ($anio,$index,$concepto) {return \Carbon\Carbon::parse($value->fecha)->month == $index && \Carbon\Carbon::parse($value->fecha)->year == $anio && $value->concepto_id == $concepto->id && $value->tipo == 'M';})['cantidad']))!=0?$val:'')}}">
 												</div>										
 											</td>
 										@endforeach

@@ -16,6 +16,9 @@ class CreateConceptosTable extends Migration
         Schema::create('conceptos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->string('slug_nombre');
+            $table->char('tipo')->defualt('G');
+            $table->integer('condominio_id')->unsigned()->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

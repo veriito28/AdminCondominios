@@ -1,22 +1,51 @@
-<form class="ui modal ui form" id="modalNuevoCondominio" action="{{route('guardarCondominio')}}" method="POST">
+<form class="ui modal ui form" id="modalNuevoCondominio" action="{{route('guardarCondominio')}}" method="POST" enctype="multipart/form-data">
 	<i class="close icon"></i>
 	<div class="header">
 		<i class="building outline icon"></i>
-		Agregar un condominio 
+		Agregar un condominio
 	</div>
 	<div class=" content">
 		{{ csrf_field() }}
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->condominioStore->has('nombre')?'error':''}}">
+			<div class="twelve wide field {{$errors->condominioStore->has('nombre')?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 						Nombre
 					</div>
-				    <input type="tel" name="nombre" placeholder="Nombre" value="{{old('nombre')}}">
+				    <input type="text" name="nombre" placeholder="Nombre" value="{{old('nombre')}}">
 				</div>
 				@if ($errors->condominioStore->has('nombre'))
 					<div class="ui left pointing red basic label">
-						{{$errors->condominioStore->first('nombre')}}		
+						{{$errors->condominioStore->first('nombre')}}
+				    </div>
+				@endif
+			</div>
+		</div>
+		<div class="inline fields">
+			<div class="twelve wide field {{$errors->condominioStore->has('direccion')?'error':''}}">
+				<div class="ui labeled input">
+					<div class="ui label">
+						Dirección
+					</div>
+				    <input type="text" name="direccion" placeholder="Dirección" value="{{old('direccion')}}">
+				</div>
+				@if ($errors->condominioStore->has('direccion'))
+					<div class="ui left pointing red basic label">
+						{{$errors->condominioStore->first('direccion')}}
+				    </div>
+				@endif
+			</div>
+		</div>
+		<div class="inline fields">
+			<div class="twelve wide field {{$errors->condominioStore->has('imagen')?'error':''}}">
+				<label for="image" class="ui icon button">
+			        <i class="file  image outline icon"></i>
+				        Logo
+				    <input type="file" id="image" accept="image/*" name="imagen" style="display:none">
+		        </label>
+				@if ($errors->condominioStore->has('imagen'))
+					<div class="ui left pointing red basic label">
+						{{$errors->condominioStore->first('imagen')}}
 				    </div>
 				@endif
 			</div>
@@ -52,10 +81,10 @@
 <script>
  	$(document).ready(function() {
 		$('.nuevoCondominio').click(function(arg) {
-			$('#modalNuevoCondominio').modal('show');			
+			$('#modalNuevoCondominio').modal('show');
 		});
 		@if (count($errors->condominioStore))
-			$('#modalNuevoCondominio').modal('show');			
+			$('#modalNuevoCondominio').modal('show');
 		@endif
 	});
 </script>

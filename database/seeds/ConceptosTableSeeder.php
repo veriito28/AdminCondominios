@@ -11,9 +11,19 @@ class ConceptosTableSeeder extends Seeder
      */
     public function run()
     {
-        $conceptos = ['Administracion de condominios','Jardineria','Limpieza de áreas comunes','Mantenimiento de alberca','Recibo de agua potable	','Recibo de energia electrica C.F.E.',	'Recoleccion de basura',	'Teleporteo y acceso automatico	'];
-    	foreach ($conceptos as $value) {
-    			Concepto::create(['nombre'=>$value]);
+        $conceptos = [
+            ['nombre' => 'Administracion de condominios','tipo'=>'G'],
+            ['nombre' => 'Jardineria','tipo'=>'G'],
+            ['nombre' => 'Limpieza de áreas comunes','tipo'=>'G'],
+            ['nombre' => 'Mantenimiento de alberca','tipo'=>'G'],
+            ['nombre' => 'Recibo de agua potable','tipo'=>'G'],
+            ['nombre' => 'Recibo de energia electrica C.F.E.','tipo'=>'G'],
+            ['nombre' => 'Recoleccion de basura','tipo'=>'G'],
+            ['nombre' => 'Teleporteo y acceso automatico','tipo'=>'G'],
+          //  ['nombre' => 'Cuota Mensual','tipo'=>'A'],
+        ];
+    	foreach ($conceptos as $concepto) {
+    		Concepto::create($concepto);
     	}
     }
 

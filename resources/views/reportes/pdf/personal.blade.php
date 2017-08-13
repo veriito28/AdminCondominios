@@ -30,9 +30,17 @@
 			#header img{
 				position: absolute;
 				top: -10px;
-				left: 20px;
 				width: 100px;
 			}
+
+			#header img.logo-app{
+				left: 20px;
+			}
+			#header img.logo-condominio{
+				right: 20px;
+			}
+			
+			
 			
 			body{
 				font-family:  sans-serif;
@@ -148,7 +156,9 @@
 	</head>
 	<body>
 		<div id="header">
-			<img src="{{ base_path('public/img/logo.png') }}" alt="">
+			<img src="{{ base_path('public/img/logo.png') }}" alt="" class="logo-app">
+			<img src="{{ $condominio->imagen_url }}" alt="" class="logo-condominio">
+
 			<p>ADMINISTRACION DE CONDOMINIOS</p>
 			<h2 style="text-align: center;">CONDOMINIO RESIDENCIAL {{$condominio->nombre}}</h2>
 			<h4 style="text-align: center;">REPORTE DE INGRESOS  {{$fecha->format('F \\d\\e\\ Y')}}</h4>

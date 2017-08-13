@@ -18,13 +18,13 @@ class GastoCtrl extends Controller
     	$this->gasto = $gasto;
     	$this->concepto = $concepto;
     }
-    public function ordinarios ($anio = null, Request $request)
+    public function ordinarios($anio = null, Request $request)
     {
     	if (!$anio) {
 			$anio = Carbon::now()->year;
     	}
     	$condominio = session()->get('condominio');
-    	$conceptos = $this->concepto->get();
+    	$conceptos = $this->concepto->tipoGastos()->get();
         $meses = config('helper.meses');
     	return view('gastos.ordinarios',compact('condominio','anio','conceptos','meses'));
     }

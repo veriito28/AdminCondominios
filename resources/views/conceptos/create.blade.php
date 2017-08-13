@@ -1,3 +1,9 @@
+@php
+	$tipos = [
+		['id'=>'G','nombre'=>'Gasto'],
+		['id'=>'A','nombre'=>'Aduedo'],
+	];
+@endphp
 <form class="ui modal ui form large equal width" id="modalNuevoConcepto" action="{{route('guardarConcepto')}}" method="POST">
 	<i class="close icon"></i>
 	<div class="header">
@@ -6,20 +12,41 @@
 	</div>
 	<div class="content">
 		{{ csrf_field() }}
+		<input type="hidden" name="form" value="modal">
 		<div class="inline fields">
-			<div class="twelve wide field  {{$errors->conceptoStore->has('nombre')?'error':''}}">
+			<div class="twelve wide field  {{$errors->conceptoStore->has('nombre')  && old('form') == 'modal'?'error':''}}">
 				<div class="ui labeled input">
 					<div class="ui label">
 					    Nombre
 					</div>
 				    <input type="text" name="nombre" value="{{old('nombre')}}" placeholder="Nombre Concepto">
 				</div>
-				@if ($errors->conceptoStore->has('nombre'))
+				@if ($errors->conceptoStore->has('nombre')  && old('form') == 'modal')
 					<div class="ui left pointing red basic label">
 						{{$errors->conceptoStore->first('nombre')}}		
 				    </div>
 				@endif
-			</div>		
+			</div>
+		</div>
+		<div class="inline fields">
+			<div class="twelve wide field  {{$errors->conceptoStore->has('tipo')  && old('form') == 'modal'?'error':''}}">
+				<div class="ui labeled input">
+					<div class="ui label">
+					    Tipo
+					</div>
+					<select name="tipo" class="ui fluid dropdown">
+						<option value="" selected>Seleccione una opción</option>
+						@foreach ($tipos as $tipo)
+							<option value="{{$tipo['id']}}" {{old('tipo') == $tipo['id']?' selected ':''}}>{{$tipo['nombre']}}</option>
+						@endforeach
+					</select>
+				</div>
+				@if ($errors->conceptoStore->has('tipo')  && old('form') == 'modal')
+					<div class="ui left pointing red basic label">
+						{{$errors->conceptoStore->first('tipo')}}		
+				    </div>
+				@endif
+			</div>			
 		</div>
 	</div>
 	<div class="actions">
@@ -37,7 +64,7 @@
 		$('.nuevoConcepto').click(function(arg) {
 			$('#modalNuevoConcepto').modal('show');			
 		});
-		@if (count($errors->conceptoStore))
+		@if (count($errors->conceptoStore) > 0  && old('form') == 'modal')
 			$('#modalNuevoConcepto').modal('show');			
 		@endif
 	});

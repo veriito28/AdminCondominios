@@ -9,14 +9,27 @@
 						<h2 class="ui center aligned icon header">
 							<i class="circular building icon"></i>
 							{{$condominio->nombre}}
+							{{-- {{$condominio->imagen}} --}}
 						</h2>
 						<table class="ui green compact celled table">
 							<thead >
 								<tr>
-									<th colspan="3">
-										<h3>Casas
-											<a href="#!" class="nuevaCasa ui right floated small black icon button">
-												<i class="large icons">
+									<th colspan="5">
+										<h3>
+											Casas
+											<span>
+												<form action="{{route('cargarCasas')}}" method="POST" novalidate enctype="multipart/form-data" >
+													{{ csrf_field() }}
+													<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
+													<label for="file" class="ui right floated  green icon button">
+												        <i class="file excel outline icon"></i>
+												     	Importar
+													    <input type="file" id="file" name="file" style="display:none"  accept=".xls, .xlsx" onchange="this.form.submit();">
+												    </label>					
+												</form>
+											</span>
+											<a href="#!" class="nuevaCasa ui right floated black icon button">
+												<i class=" icons">
 												    <i class="home icon"></i>
 												    <i class="inverted corner add icon"></i>
 												</i>
@@ -32,6 +45,7 @@
 									<th>
 										E-mail
 									</th>
+									<th>Ubicación</th>
 									<th>Contacto</th>
 								</tr>
 							</thead>
@@ -52,13 +66,24 @@
 									<td>
 										{{$casa->email}}										
 									</td>
+									<td>
+										<h4 class="ui image header">
+											<i class="ui mini map icon"></i>
+											<div class="content">
+												Manzana: {{$casa->manzana}}								
+												<div class="sub header">
+													Lote: {{$casa->lote}}								
+												</div>
+											</div>
+										</h4>
+									</td>
 									<td class="cell-action">
 										<h4 class="ui image header">
 											<i class="ui mini phone icon"></i>
 											<div class="content">
-												Tel: {{$casa->telefono}}								
+												Interfon: {{$casa->interfon}}								
 												<div class="sub header">
-													Cel: {{$casa->celular}}								
+													Tel: {{$casa->telefono}} Cel: {{$casa->celular}}								
 												</div>
 											</div>
 										</h4>
@@ -71,6 +96,109 @@
 									</td>
 								</tr>
 								@endforeach
+								<form action="{{route('guardarCasa')}}" method="POST" novalidate class="form-inline">
+									{{ csrf_field() }}
+									<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
+									<input type="hidden" name="form" value="table">
+									<tr class="agregar active">
+										<td>
+											<div class="ui grid">
+												<div class="eight wide column">
+													<div class="ui input mini {{$errors->casaStore->has('nombre') && old('form') == 'table'?' error':''}}">
+														<input 	type="text" 
+																autocomplete="off" 
+																class="input-table" 
+																name="nombre" 
+																placeholder="Nombre" 
+																value="{{old('nombre')? old('nombre'):''}}">
+													</div>		
+												</div>		
+												<div class="eight wide column">
+													<div class="ui input mini {{$errors->casaStore->has('contacto') && old('form') == 'table'?' error':''}}">
+														<input 	type="text" 
+																autocomplete="off" 
+																class="input-table" 
+																name="contacto" 
+																placeholder="Contacto" 
+																value="{{old('contacto')? old('contacto'):''}}">
+													</div>		
+												</div>
+										</td>		
+										<td>
+											<div class="ui input mini {{$errors->casaStore->has('email') && old('form') == 'table'?' error':''}}">
+												<input 	type="email" 
+														autocomplete="off" 
+														class="input-table" 
+														name="email" 
+														placeholder="Correo" 
+														value="{{old('email')}}">
+											</div>											
+										</td>
+										<td >
+											<div class="ui grid">
+												<div class="eight wide column">
+													<div class="ui input mini {{$errors->casaStore->has('manzana') && old('form') == 'table'?' error':''}}">
+														<input 	type="text" 
+																autocomplete="off" 
+																class="input-table" 
+																name="manzana" 
+																placeholder="Manzana" 
+																value="{{old('manzana')}}">
+													</div>		
+												</div>
+												<div class="eight wide column">
+													<div class="ui input mini {{$errors->casaStore->has('lote') && old('form') == 'table'?' error':''}}">
+														<input 	type="text" 
+																autocomplete="off" 
+																class="input-table" 
+																name="lote" 
+																placeholder="Lote" 
+																value="{{old('lote')}}">
+													</div>		
+												</div>		
+											</div>
+										</td>
+										<td class="cell-action">
+											<div class="ui grid">
+												<div class="five wide column">
+													<div class="ui input mini {{$errors->casaStore->has('telefono') && old('form') == 'table'?' error':''}}">
+														<input 	type="tel" 
+																autocomplete="off" 
+																class="input-table" 
+																name="telefono" 
+																placeholder="Telefono" 
+																value="{{old('telefono')}}">
+													</div>		
+												</div>
+												<div class="five wide column">
+													<div class="ui input mini {{$errors->casaStore->has('celular') && old('form') == 'table'?' error':''}}">
+														<input 	type="tel" 
+																autocomplete="off" 
+																class="input-table" 
+																name="celular" 
+																placeholder="Celular" 
+																value="{{old('celular')}}">
+													</div>		
+												</div>
+												<div class="five wide column">
+													<div class="ui input mini {{$errors->casaStore->has('interfon') && old('form') == 'table'?' error':''}}">
+														<input 	type="text" 
+																autocomplete="off" 
+																class="input-table" 
+																name="interfon" 
+																placeholder="Interfon" 
+																value="{{old('interfon')? old('interfon'):''}}">
+													</div>		
+												</div>		
+
+											<div class="options">
+												<div class="ui icon buttons">
+													<button class="ui button green"><i class="plus icon"></i></button>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</form>
 							</tbody>
 						</table>
 					</div>
@@ -85,5 +213,3 @@
 	@parent
 	@include('removeOption',['elementos'=>$condominio->casas,'ruta'=>'eliminarCasa'])
 @stop
-
-

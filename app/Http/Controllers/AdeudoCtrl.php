@@ -9,14 +9,16 @@ use App\Http\Requests\PasswordConfirmationRequest;
 
 use App\Adeudo;
 use App\Condominio;
+use App\Concepto;
 use Carbon\Carbon;
 
 class AdeudoCtrl extends Controller
 {
-    function __construct(Adeudo $adeudo,Condominio $condominio)
+    function __construct(Adeudo $adeudo,Condominio $condominio,Concepto $concepto)
     {
     	$this->adeudo = $adeudo;
-    	$this->condominio = $condominio;
+        $this->condominio = $condominio;
+    	$this->concepto = $concepto;
     }
     public function mensualidades($anio = null)
     {
@@ -25,7 +27,8 @@ class AdeudoCtrl extends Controller
     	}
     	$condominio = session()->get('condominio');
     	$meses = config('helper.meses');
-    	$conceptos = ['mensualidad'=>'Mensualidad'];
+        $conceptos = $this->concepto->tipoMensuales()->condominioId($condominio->id)->get();
+    	// $conceptos = ['mensualidad'=>'Mensualidad'];
     	$adeudosMensuales = $this->adeudo->mensualidades()->condominioId($condominio->id)->anio($anio)->get();
         return view('adeudos.mensualidades',compact('conceptos','adeudosMensuales','condominio','anio','meses'));
     }
@@ -38,16 +41,23 @@ class AdeudoCtrl extends Controller
         $meses = config('helper.meses');
     	$index = 1;
     	$condominio = session()->get('condominio');
-
+        $conceptos = $this->concepto->tipoMensuales()->condominioId($condominio->id)->get();
     	foreach ($request->except(['_token']) as $key => $valores) {
     		$fecha = Carbon::createFromDate($anio,$meses[$key],1);
     		foreach ($valores as $concepto => $cantidad) {
     			if (!is_null($cantidad)) {
+                    $conc = null;
+                    foreach ($conceptos as $copt) {
+                        if ($copt->id === $concepto) {
+                            $conc = $copt;
+                        }
+                    }
 		    		$this->adeudo->updateOrCreate([
                                     'tipo'          => 'M',
-                                    'condominio_id' => $condominio->id, 
-                                    'fecha'         => $fecha->toDateString(), 
-                                    'concepto'      => $concepto
+                                    'condominio_id' => $condominio->id,
+                                    'fecha'         => $fecha->toDateString(),
+                                    'concepto_id'   => $concepto,
+                                    'concepto'      => $conc->nombre,
                                 ],
     							[
                                     'cantidad' => $cantidad
@@ -104,5 +114,5 @@ class AdeudoCtrl extends Controller
         $otroAdeudo->fill($request->only(['fecha','cantidad','concepto']));
         $otroAdeudo->save();
         return redirect()->route('otrosAdeudos',compact('anio'))->with(['message'=>'Adeudo Actualizado.','type'=>'success']);
-    }   
+    }
 }

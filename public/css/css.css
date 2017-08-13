@@ -19,43 +19,67 @@
 	top: 20%;
 	right: 3px;
 }
+
 tr:hover .options{
 	display: block;
 }
+
 .ui.table-pagos td {
     padding: 0 0em;
+    width: 7.67%;
 }
-.ui.table-pagos td .input input {
-	width: 50px!important;
+
+.ui.table-pagos td .input input{
 	border: 0px;
 	padding: 5px 4px;
 }
+
+.ui.table-pagos td .input input{
+	width: 50px!important;
+}
+
+.ui.table-pagos td {
+    padding: 0.3em .4em;
+}
+
 .ui.table-pagos td:hover .input input {
     border: 1px solid rgba(34,36,38,.15);
 }
+
 .ui.table-pagos .ui.input input:focus,.ui.table-pagos .ui.input.focus input {
     border: 1px solid rgba(34,36,38,.15);
 }
+
 .content-pull{
 	position: relative;
 	min-height: 82vh!important;
 }
+
 .pull-left{
 	position: absolute;
 	top: 0;
 }
-.side-bar i.icons .inverted.corner.icon {
+
+.side-bar .green i.icons .inverted.corner.icon {
     text-shadow: -1px -1px 0 #21ba45, 1px -1px 0 #21ba45, -1px 1px 0 #21ba45, 1px 1px 0 #21ba45;
 }
-.labeled input{
+
+.side-bar .orange i.icons .inverted.corner.icon {
+    text-shadow: -1px -1px 0 #F2711C, 1px -1px 0 #F2711C, -1px 1px 0 #F2711C, 1px 1px 0 #F2711C;
+}
+
+.labeled input[type="text"],.labeled input[type="number"]{
 	width: 50px!important;
 }
+
 .form-inline{
 	display: inline-block;
 }
+
 .hide{
 	display: none!important;
 }
+
 body{
 	background-image: url('../img/condominio2.png');
 	background-position: center bottom ;
@@ -65,8 +89,13 @@ body{
 	position: relative;
 	height: 100%;
 }
+
 .menu{
-	position: relative;
+	/*position: relative;*/
+}
+
+.puntitos{
+	height: 45px;
 }
 /*.puntitos{
 	position: absolute;
@@ -83,10 +112,10 @@ body{
     padding: 1em 0;
 }*/
 .ui.grid.container,.container {
-    width: 96%!important;
+    width: 100%!important;
 }
 .ui.vertical.menu {
-     width: 100%; 
+     /*width: 100%; */
 }
 .ui.attached.menu {
 	margin-bottom: 1rem;
@@ -96,27 +125,37 @@ body{
 	padding-left: 0!important;
 	padding-right: 0!important;
 }
+
 .ui.large.modal {
 	width: 85%!important;
 }
+
 .pull-left.ui.header>.icon {
-     display: inline-block; 
+    display: inline-block; 
 }
+
 .item-hover .btn-title{
 	display: none;
 }
+
 .item-hover:hover .btn-title{
 	display: inline-block;
 }
+
 .ui.selection.dropdown.date{
 	min-width: 80px!important;
 }
+
 .tr-adeudo{
 	font-size: 9px;
 }
+
 .tr-adeudo th{
 	padding: 0px 10px!important;
 }
+
+
+
 .ui.table.table-ingresos thead tr th{
 	background: rgb(0, 176, 80)!important;
 }
@@ -177,3 +216,85 @@ body{
 .agregar .ui.input {
     width: 87%;
  }
+
+.ui.attached.inverted.stackable.menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    z-index: 20;
+}
+.ui.table td.positive, .ui.table tr.positive {
+    background: #befbc9!important;
+}
+.ui.table td.error, .ui.table tr.error {
+    background: #ffe3e3!important;
+}
+.ui.table td.correct, .ui.table tr.correct {
+    background: #9ad2ff	!important;
+}
+.ui.table-pagos td .input input {
+    width: 100%;
+    margin: 0;
+    background: transparent;
+}
+.ui.table-pagos td .ui.input {
+    font-size: 1em;
+    width: 100%;
+    background: transparent;
+}
+.ui.table-pagos.compact.table td {
+    padding: .2em .0em;
+    text-align: center;
+}
+
+.ui.menu.side-bar .item {
+  	padding: 0;
+	border-radius: 0!important;
+    /* padding: 0.928571em 1.142857em; */
+}
+.ui.menu.side-bar .item .title{
+    padding: 0.928571em 1.142857em!important; 
+}
+.ui.menu.side-bar .item .content .item{
+    padding: 0.928571em 1.142857em; 
+    background: #1b1c1d;
+}
+.ui.menu.side-bar .item .content .item:hover{
+	background: #FBBD08;
+}
+.ui.accordion:not(.styled) .accordion .title~.content:not(.ui), .ui.accordion:not(.styled) .title~.content:not(.ui) {
+    padding: 0; 
+}
+
+.ui.vertical.menu {
+    width: 13%;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    position: fixed;
+    top: 40px;
+    left: 0px;
+    border-radius: 0;
+}
+
+.ui.vertical.menu>.active.item:first-child {
+    border-radius: 0;
+}
+
+.ui.inverted.menu .yellow.active.item, .ui.inverted.yellow.menu {
+    background-color: #FBBD08!important;
+}
+
+.ui.tabular.menu .item {
+    padding: .12857143em 0.42857143em;
+    font-size: 12px;
+}
+.segment.segment-sin-padding{
+    padding-left: 0!important; 
+    padding-right: 0!important; 
+}
+.segment.segment-sin-padding .fields.inline {
+    margin-bottom: 2px!important;
+}

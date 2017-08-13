@@ -15,7 +15,7 @@ class Casa extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'nombre', 'contacto','email','telefono','celular','password','condominio_id',
+        'no_cliente','nombre', 'contacto','email','telefono','celular','password','condominio_id','manzana','lote','fecha_esc','interfon'
     ];
     public function condominio()
     {

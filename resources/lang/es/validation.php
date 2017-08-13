@@ -89,6 +89,7 @@ return [
     'url'                  => 'El formato de :attribute no corresponde con el de una URL válida.',
    
     'password_valid'        => 'El campo :attribute no es válida.',
+    'unique_concepto'        => 'El campo :attribute no es unico.',
 
     /*
     |--------------------------------------------------------------------------

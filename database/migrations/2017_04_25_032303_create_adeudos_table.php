@@ -21,6 +21,7 @@ class CreateAdeudosTable extends Migration
             $table->char('tipo', 1)->defualt('M');
             $table->integer('condominio_id')->unsigned()->nullable();
             $table->integer('casa_id')->unsigned()->nullable();
+            $table->integer('concepto_id')->unsigned()->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

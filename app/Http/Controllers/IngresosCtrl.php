@@ -11,16 +11,18 @@ use App\Pago;
 use App\Condominio;
 use Carbon\Carbon;
 use App\Adeudo;
+use App\Concepto;
 
 class IngresosCtrl extends Controller
 {
-	function __construct(Pago $pago,Condominio $condominio,Adeudo $adeudo)
+	function __construct(Pago $pago,Condominio $condominio,Adeudo $adeudo,Concepto $concepto)
 	{
         $this->pago       = $pago;
         $this->condominio = $condominio;
         $this->adeudo     = $adeudo;
+        $this->concepto   = $concepto;
     }
-    public function pagos($tipo = 'mensualidad' ,$anio = null, Request $request)
+    public function pagos($tipo,$anio = null, Request $request)
     {
     	if (!$anio) {
 			$anio = Carbon::now()->year;
@@ -28,17 +30,31 @@ class IngresosCtrl extends Controller
     	$condominio = session()->get('condominio');
     	$condominio = $this->condominio->id($condominio->id)->first();
     	$meses = config('helper.meses');
-        $adeudosMensuales = $this->adeudo->mensualidades()->condominioId($condominio->id)->anio($anio)->get();
-        return view('ingresos.pagos',compact('condominio','anio','meses','tipo','adeudosMensuales'));
+        $concepto = $this->concepto->slugNombre($tipo)->first();
+        $adeudosMensuales = $this->adeudo
+                                 ->with('pagos')
+                                 ->mensualidades()
+                                 ->conceptoId($concepto->id)
+                                 ->condominioId($condominio->id)
+                                 ->anio($anio)
+                                 ->get();
+        
+        return view('ingresos.pagos',compact('condominio','anio','meses','tipo','adeudosMensuales','concepto'));
     }
-    public function guardarPagos($tipo = 'mensualidad' ,$anio = null,PagoStoreRequest $request)
+    public function guardarPagos($tipo,$anio = null,PagoStoreRequest $request)
     {
-        // dd($request->all());
     	$index = 1;
         $meses = config('helper.meses');
         $condominio = session()->get('condominio');
-    	$adeudosMensuales = $this->adeudo->mensualidades()->condominioId($condominio->id)->anio($anio)->get();
-        foreach ($request->except(['_token']) as $key => $valores) {
+        $concepto = $this->concepto->slugNombre($tipo)->first();
+    	$adeudosMensuales = $this->adeudo
+                                 ->with('pagos')
+                                 ->mensualidades()
+                                 ->conceptoId($concepto->id)
+                                 ->condominioId($condominio->id)
+                                 ->anio($anio)
+                                 ->get();
+        foreach ($request->except(['_token','fecha_pago']) as $key => $valores) {
           	$fecha = Carbon::createFromDate($anio,$meses[$key],1);
     		foreach ($valores as $casa_id => $cantidad) {
     			if (!is_null($cantidad)) {
@@ -57,13 +73,14 @@ class IngresosCtrl extends Controller
                     $pago = Pago::updateOrCreate([
                                 'tipo'          => 'M',
                                 'casa_id'       => $casa_id, 
-                                'adeudo_id'       => $adeudoMenusal->id, 
+                                'adeudo_id'     => $adeudoMenusal->id, 
                                 'condominio_id' => $condominio->id,
                                 'fecha'         => $fecha->toDateString(), 
                                 'concepto'      => $tipo
                             ],
                             [
-                                'cantidad' => $cantidad
+                                'fecha_pago' => Carbon::parse($request->fecha_pago)->toDateString(), 
+                                'cantidad'   => $cantidad
                             ]);
 		    		$index += 1;
     			}
@@ -73,6 +90,22 @@ class IngresosCtrl extends Controller
 	    	return redirect()->back()->with(['message'=>'Pagos Guardados correctamente.','type'=>'success']);
     	}
     	return redirect()->back()->with(['message'=>'Sin pagos para actualizar.','type'=>'success']);
+    }
+    public function pagosMensuales($mes = '',$anio = '')
+    {
+        if (!$anio) {
+            $anio = Carbon::now()->year;
+        }
+        if (!$mes) {
+            $mesesIndex = config('helper.mesesIndex');
+            $mes = $mesesIndex[Carbon::now()->month];
+        }
+        $condominio = session()->get('condominio');
+        $condominio = $this->condominio->id($condominio->id)->first();
+        $meses = config('helper.meses');
+        $conceptos = $this->concepto->tipoAdeudo()->get();
+        
+        return view('ingresos.pagosMensuales',compact('condominio','anio','meses','mes','conceptos'));
     }
     public function ingresosExtraordinarios($anio = null)
     {

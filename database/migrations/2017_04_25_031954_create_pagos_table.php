@@ -18,6 +18,7 @@ class CreatePagosTable extends Migration
             $table->string('concepto')->nullable();
             $table->decimal('cantidad',14,2)->default(0)->nullable();
             $table->date('fecha');
+            $table->date('fecha_pago');
             $table->char('tipo', 1)->defualt('P');
             $table->integer('condominio_id')->unsigned()->nullable();
             $table->integer('casa_id')->unsigned()->nullable();

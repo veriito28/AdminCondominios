@@ -13,7 +13,7 @@
 							<h2 class="ui horizontal divider header">Sistema Smart</h2>
 							<div class="ui four cards grid">
 								@foreach ($condominios as $condominio)
-									<div class="ui column card">											
+									<div class="ui column card">
 											@if ($condominio->pivot->seleccionado)
 												<div class="ui black ribbon label">
 													<i class="building icon"></i> Seleccionado
@@ -26,6 +26,7 @@
 											<div class="content">
 												<div class="header">
 													{{$condominio->nombre}}
+													{{-- <img src="{{$condominio->imagen}}"  class="ui  image mini" alt="Imagen Condominio" > --}}
 												</div>
 												<div class="meta">
 													Casas: {{$condominio->casas->count()}}
@@ -38,7 +39,7 @@
 											    </a>
 											@else
 											    <a href="{{ route('mostrarCondominio',[ 'id' => $condominio->id]) }}" class="ui bottom attached green button">
-													Configurar
+													Seleccionar
 											      	<i class="configure  right icon"></i>
 											    </a>
 											@endif
@@ -66,12 +67,12 @@
 		@php
 			$elemento  = $condominio;
 		@endphp
-			
+
 		@include('remove',compact('elemento','ruta'))
-		<script>	
+		<script>
 			$(document).ready(function() {
 				$('#removerElemento{{$condominio->id}}').click(function(arg) {
-					$('#modalEliminarElemento{{$condominio->id}}').modal('show');			
+					$('#modalEliminarElemento{{$condominio->id}}').modal('show');
 				});
 			});
 		</script>
@@ -79,7 +80,7 @@
 	@if ($errors->eliminarElemento->has('password'))
 		<script>
 			$(document).ready(function() {
-				$('#modalEliminarElemento{{old('id')}}').modal('show');			
+				$('#modalEliminarElemento{{old('id')}}').modal('show');
 			});
 		</script>
 	@endif

@@ -18,7 +18,12 @@ class CreateCasasTable extends Migration
             $table->increments('id');
             $table->integer('condominio_id')->unsigned();
             $table->string('nombre');
-            $table->string('email')->unique()->nullable();
+            $table->string('no_cliente')->nullable();
+            $table->string('manzana')->nullable();
+            $table->string('interfon')->nullable();
+            $table->string('lote')->nullable();
+            $table->dateTime('fecha_esc')->nullable();
+            $table->string('email')->nullable();
             $table->string('password')->nullable();
             $table->string('contacto')->nullable();
             $table->string('telefono')->nullable();
