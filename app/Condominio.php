@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
 use App\Casa;
 use App\Usuario;
-use App\Concepto;
+use App\Reporte;
+use App\Adeudo;
+use App\ConceptoAdeudo;
+use App\ConceptoGasto;
 use App\EloquentImageMutatorRafaelTrait;
 
 class Condominio extends Model
@@ -18,6 +21,7 @@ class Condominio extends Model
     protected $fillable = [
         'nombre','direccion','imagen'
     ];
+
     public function casas()
     {
     	return $this->hasMany(Casa::class,'condominio_id','id');
@@ -27,8 +31,21 @@ class Condominio extends Model
         return $this->belongsToMany(Usuario::class,'usuarios_condominios','condominio_id','usuario_id')->withPivot('seleccionado')->withTimestamps();
     }
     
-    public function conceptos()
+    public function conceptosAdeudos()
     {
-        return $this->hasMany(Concepto::class);
+        return $this->hasMany(ConceptoAdeudo::class);
+    }
+    public function conceptosGastos()
+    {
+        return $this->hasMany(ConceptoGasto::class);
+    }
+    public function reportes()
+    {
+        return $this->hasMany(Reporte::class);
+    }
+  
+    public function Adeudos()
+    {
+        return $this->hasMany(Adeudo::class);
     }
 }

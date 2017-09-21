@@ -25,10 +25,17 @@ class Pago extends Model
     {
         return $query->where('tipo','M');
     }
+    
     public function scopeOtros($query)
     {
         return $query->where('tipo','O');
     }
+    
+    public function scopeExtraordinarios($query)
+    {
+        return $query->where('tipo','E');
+    }
+
      public function scopeNormales($query)
     {
         return $query->where('concepto','mensualidad');
@@ -44,10 +51,6 @@ class Pago extends Model
     public function scopeCasaId($query,$id)
     {
         return $query->where('casa_id',$id);
-    }
-    public function scopeExtraordinarios($query)
-    {
-        return $query->where('tipo','E');
     }
 
     public function scopeCondominioId($query,$id)

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Concepto;
+use App\ConceptoGasto;
 class ConceptosTableSeeder extends Seeder
 {
     /**
@@ -23,7 +23,7 @@ class ConceptosTableSeeder extends Seeder
           //  ['nombre' => 'Cuota Mensual','tipo'=>'A'],
         ];
     	foreach ($conceptos as $concepto) {
-    		Concepto::create($concepto);
+    		ConceptoGasto::create($concepto);
     	}
     }
 

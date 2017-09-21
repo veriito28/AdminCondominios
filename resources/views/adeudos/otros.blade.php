@@ -20,7 +20,7 @@
 						<table class="ui green celled table">
 							<thead >
 								<tr>
-									<th colspan="4">
+									<th colspan="5">
 										<div class="ui form form-inline pull-left">
 												<div class="fields inline">													
 													<div class="ui floating labeled icon dropdown button">
@@ -51,9 +51,11 @@
 									<th>
 										Casa	
 									</th>
-									
-									<th width="40%">
+									<th width>
 										Concepto	
+									</th>
+									<th width="40%">
+										Descripción	
 									</th>
 									<th>
 										Cantidad
@@ -70,16 +72,20 @@
 										<h4 class="ui image header">
 											<i class="ui mini home icon"></i>
 											<div class="content">
-												{{$otroAdeudo->casa->nombre}}
+												{{ isset($otroAdeudo->casa)?$otroAdeudo->casa->nombre:'General'}}
 												<div class="sub header">
-													{{$otroAdeudo->casa->contacto}}
+													{{ isset($otroAdeudo->casa)?$otroAdeudo->casa->contacto:'Todas'}}
 												</div>
 											</div>
 										</h4>
 									</td>
 									<td >
+										{{$otroAdeudo->concepto()->first()->nombre}}
+									</td>
+									<td >
 										{{$otroAdeudo->concepto}}
 									</td>
+
 									<td >
 										$ {{$otroAdeudo->cantidad}}
 									</td>
@@ -107,7 +113,23 @@
 													<div class="default text">Seleccione una opción</div>
 													<div class="menu">
 														@foreach ($condominio->casas as $casa)
-														<div class="item" data-value="{{$casa->id}}">{{$casa->nombre}}</div>
+														<div class="item" data-value="{{$casa->id}}" title="{{$casa->contacto}}">
+															{{$casa->nombre}}
+														</div>
+														@endforeach
+													</div>
+												</div>
+											</div>	
+										</td>
+										<td>
+											<div class="ui input mini ">
+												<div class="ui selection dropdown {{$errors->otroAdeudoStore->has('concepto_id') && old('form') == 'table'?' error':''}}">
+													<input type="hidden" name="concepto_id" value="{{old('concepto_id')}}">
+													<i class="dropdown icon"></i>
+													<div class="default text">Seleccione una opción</div>
+													<div class="menu">
+														@foreach ($conceptos as $concepto)
+															<div class="item" data-value="{{$concepto->id}}">{{$concepto->nombre}}</div>
 														@endforeach
 													</div>
 												</div>
@@ -119,7 +141,7 @@
 														autocomplete="off" 
 														class="input-table" 
 														name="concepto" 
-														placeholder="Concepto" 
+														placeholder="Descripción" 
 														value="{{old('concepto')? old('concepto'):''}}">
 											</div>										
 										</td>

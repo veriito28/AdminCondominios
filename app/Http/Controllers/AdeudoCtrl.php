@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AdeudoCasaStoreRequest;
+use App\Http\Requests\AdeudoOtroStoreRequest;
 use App\Http\Requests\AdeudoCasaUpdateRequest;
 use App\Http\Requests\PasswordConfirmationRequest;
 
 use App\Adeudo;
 use App\Condominio;
-use App\Concepto;
+use App\ConceptoAdeudo as Concepto;
 use Carbon\Carbon;
 
 class AdeudoCtrl extends Controller
@@ -28,7 +29,7 @@ class AdeudoCtrl extends Controller
     	$condominio = session()->get('condominio');
     	$meses = config('helper.meses');
         $conceptos = $this->concepto->tipoMensuales()->condominioId($condominio->id)->get();
-    	// $conceptos = ['mensualidad'=>'Mensualidad'];
+        // $conceptos = ['mensualidad'=>'Mensualidad'];
     	$adeudosMensuales = $this->adeudo->mensualidades()->condominioId($condominio->id)->anio($anio)->get();
         return view('adeudos.mensualidades',compact('conceptos','adeudosMensuales','condominio','anio','meses'));
     }
@@ -80,17 +81,29 @@ class AdeudoCtrl extends Controller
         }
         $condominio = session()->get('condominio');
         $condominio = $this->condominio->find($condominio->id);
-        $otrosAdeudos = $this->adeudo->otros()->condominioId($condominio->id)->anio($anio)->get();
-        return view("adeudos.otros",compact('condominio','anio','otrosAdeudos'));
+        $otrosAdeudos = $this->adeudo
+                             ->with('concepto')
+                             ->otros()
+                             ->condominioId($condominio->id)
+                             ->anio($anio)
+                             ->get();
+        $conceptos = $this->concepto->tipoFijos()->condominioId($condominio->id)->get();
+        return view("adeudos.otros",compact('condominio','anio','otrosAdeudos','conceptos'));
     }
-    public function guardarOtroAdeudo($anio = null,AdeudoCasaStoreRequest $request)
+    public function guardarOtroAdeudo($anio = null,AdeudoOtroStoreRequest $request)
     {
         $datos = $request->except('_token');
         $condominio = session()->get('condominio');
         $datos['condominio_id'] = $condominio->id;
         $datos['tipo'] = 'O';
-        if ($this->adeudo->create($datos)) {
-            return redirect()->back()->with(['message'=>'Adeudo guardados correctamente.','type'=>'success']);
+        $concepto = $this->concepto->id($datos['concepto_id'])->first();
+        if (isset($concepto)) {
+            if ($concepto->tipo == 'G') {
+                $datos['casa_id'] = null;
+            }
+            if ($this->adeudo->create($datos)) {
+                return redirect()->back()->with(['message'=>'Adeudo guardados correctamente.','type'=>'success']);
+            }
         }
         return redirect()->back()->with(['message'=>'Adeudo no registrado.','type'=>'error']);
     }

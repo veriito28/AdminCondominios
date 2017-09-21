@@ -49,11 +49,25 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 	Route::name('guardarCondominio')->post('condominios','CondominioCtrl@guardar');
 	Route::group(['prefix' => 'condominio'], function () {
 
+		Route::name('mostrarConceptosGastos')->get('gastos/conceptos', 'ConceptoGastoCtrl@mostrar');
+		Route::name('guardarConceptoGasto')->post('gastos/conceptos', 'ConceptoGastoCtrl@guardar');
+		Route::name('eliminarConceptoGasto')->delete('gastos/conceptos/{id}','ConceptoGastoCtrl@eliminar');
+		Route::name('editarConceptoGasto')->get('gastos/concepto/{id}/editar','ConceptoGastoCtrl@editar');
+		Route::name('actualizarConceptoGasto')->put('gastos/concepto/{id}','ConceptoGastoCtrl@actualizar');
+
+
+		Route::name('mostrarConceptosAdeudos')->get('/adeudos/conceptos', 'ConceptoAdeudoCtrl@mostrar');
+		Route::name('guardarConceptoAdeudo')->post('/adeudos/conceptos', 'ConceptoAdeudoCtrl@guardar');
+		Route::name('eliminarConceptoAdeudo')->delete('/adeudos/conceptos/{id}','ConceptoAdeudoCtrl@eliminar');
+		Route::name('editarConceptoAdeudo')->get('/adeudos/concepto/{id}/editar','ConceptoAdeudoCtrl@editar');
+		Route::name('actualizarConceptoAdeudo')->put('/adeudos/concepto/{id}','ConceptoAdeudoCtrl@actualizar');
+
 		Route::name('mostrarCondominio')->get('/{id}/show','CondominioCtrl@mostrar');
 		Route::name('editarCondominio')->get('/{id}/edit','CondominioCtrl@editar');
 		Route::name('eliminarCondominio')->delete('/delete/{id}','CondominioCtrl@eliminar');
 		Route::name('cargarCasas')->post('casas/excel','CasaCtrl@cargarExcel');
 		Route::name('guardarCasas')->post('casas/excel/save','CasaCtrl@guardarExcel');
+		Route::name('exportarCasas')->get('casas/excel/export','CasaCtrl@exportarExcel');
 		
 		Route::name('guardarCasa')->post('casas','CasaCtrl@guardar');
 		Route::name('eliminarCasa')->delete('casas/{id}','CasaCtrl@eliminar');
@@ -62,7 +76,8 @@ Route::group(['prefix' => 'usuario','middleware' => ['auth']], function () {
 		Route::name('actualizarCasa')->put('casas/{id}','CasaCtrl@actualizar');
 		
 		Route::name('pagosMensuales')->get('ingresos/pagosMensuales/{mes?}/{anio?}','IngresosCtrl@pagosMensuales');
-		
+		Route::name('guardarPagosMensuales')->post('ingresos/pagosMensuales/{mes}/{anio?}','IngresosCtrl@guardarPagosMensuales');
+
 		Route::name('pagos')->get('ingresos/pagos/{tipo?}/{anio?}','IngresosCtrl@pagos');
 		Route::name('guardarPagos')->post('ingresos/pagos/{tipo}/{anio?}','IngresosCtrl@guardarPagos');
 

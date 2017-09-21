@@ -6,37 +6,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
 use App\Adeudo;
-use App\Gasto;
 use App\Condominio;
 use App\SlugNombreTrait;
 
-class Concepto extends Model
+class ConceptoAdeudo extends Model
 {
     use IdTrait, SoftDeletes, SlugNombreTrait;
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'nombre','tipo','condominio_id','slug_nombre'
+        'nombre','tipo','deudor','condominio_id','slug_nombre'
     ];
-   
-    public function gastos()
-    {
-    	return $this->hasMany(Gasto::class);
-    }
    
     public function scopeTipoMensuales($query)
     {
-        return $query->where('tipo','A');
+        return $query->where('tipo','M');
+    }
+    public function scopeTipoFijos($query)
+    {
+        return $query->where('tipo','F');
     }
 
-    public function scopeTipoAdeudo($query)
+    public function scopePersonal($query)
     {
-        return $query->where('tipo','A');
+        return $query->where('deudor','P');
     }
 
-    public function scopeTipoGastos($query)
+    public function scopeGlobal($query)
     {
-        return $query->where('tipo','G');
+        return $query->where('deudor','G');
     }
   
     public function scopeCondominioId($query,$condominio_id)

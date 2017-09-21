@@ -111,8 +111,11 @@ body{
     -ms-background-size: 2px;
     padding: 1em 0;
 }*/
-.ui.grid.container,.container {
-    width: 100%!important;
+.paddingLeft{
+    padding-left: 40px!important;
+}
+.ui.grid.container,.container{
+    width: 98%!important;
 }
 .ui.vertical.menu {
      /*width: 100%; */
@@ -255,10 +258,10 @@ body{
     /* padding: 0.928571em 1.142857em; */
 }
 .ui.menu.side-bar .item .title{
-    padding: 0.928571em 1.142857em!important; 
+    padding: 0.928571em 0.742857em!important; 
 }
 .ui.menu.side-bar .item .content .item{
-    padding: 0.928571em 1.142857em; 
+    padding: 0.928571em 0.842857em; 
     background: #1b1c1d;
 }
 .ui.menu.side-bar .item .content .item:hover{
@@ -269,7 +272,8 @@ body{
 }
 
 .ui.vertical.menu {
-    width: 13%;
+    box-shadow: 2px 0px 5px #777;
+    width: auto;
     padding: 0;
     margin: 0;
     height: 100%;
@@ -278,9 +282,26 @@ body{
     left: 0px;
     border-radius: 0;
 }
+.ui.vertical.menu .item .text{
+    display: none;
+}
+.ui.vertical.menu .item .content{
+    display: none;
+}
+
+.ui.vertical.menu:hover .item .text{
+    display: inline-block;
+}
+.ui.vertical.menu:hover .item .content.active{
+    display: block;
+}
 
 .ui.vertical.menu>.active.item:first-child {
     border-radius: 0;
+}
+.ui.vertical.menu{
+    z-index: 400;
+
 }
 
 .ui.inverted.menu .yellow.active.item, .ui.inverted.yellow.menu {
@@ -289,7 +310,7 @@ body{
 
 .ui.tabular.menu .item {
     padding: .12857143em 0.42857143em;
-    font-size: 12px;
+    font-size: 12px!important;
 }
 .segment.segment-sin-padding{
     padding-left: 0!important; 
@@ -297,4 +318,7 @@ body{
 }
 .segment.segment-sin-padding .fields.inline {
     margin-bottom: 2px!important;
+}
+.ui.vertical.menu .item .text{
+    font-size: 12px;
 }

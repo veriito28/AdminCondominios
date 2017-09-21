@@ -93,7 +93,6 @@
 		</div>
 	</div>
 </div>
-@include('casas.create',['errors' => $errors])
 @endsection
 
 @section('scripts')
@@ -112,12 +111,18 @@
     					"octubre", 
     					"noviembre", 
     					"diciembre"];
-		
+		$(".input-table").focus(function() {
+			var vm = this;
+			setTimeout(function() {
+				$(vm).select();
+			},1);			
+		});
+
 		$(".input-table").keydown(function(event ) {
 			var index = $(this).prop('name').match(/\[(.*?)\]/)[1];
 			var nombre = $(this).prop('name').match(/([a-z])\w+/)[0];
 			var x = meses.indexOf(nombre);
-			var maxIndex = {{$condominio->casas->max('id')}};
+			var maxIndex = {{$conceptos->max('id')}};
 			if (event.keyCode >=37 && event.keyCode <=40) {
 				switch(event.keyCode){
 					case 38: //arriba

@@ -22,11 +22,20 @@
 													{{ csrf_field() }}
 													<input type="hidden" name="condominio_id" value="{{$condominio->id}}">
 													<label for="file" class="ui right floated  green icon button">
-												        <i class="file excel outline icon"></i>
+												        <i class=" ui icons">
+															<i class="file excel outline icon"></i><i class="corner inverted reply icon"></i>
+												        </i>
 												     	Importar
 													    <input type="file" id="file" name="file" style="display:none"  accept=".xls, .xlsx" onchange="this.form.submit();">
 												    </label>					
 												</form>
+												<a href="{{ route('exportarCasas') }}" class="ui right floated  green icon button">
+												        <i class=" ui icons">
+															<i class="file excel outline icon"></i><i class="corner inverted share icon"></i>
+												        </i>
+											     	Exportar
+												</a>
+
 											</span>
 											<a href="#!" class="nuevaCasa ui right floated black icon button">
 												<i class=" icons">

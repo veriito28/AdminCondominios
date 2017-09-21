@@ -11,7 +11,7 @@ use App\Pago;
 use App\Condominio;
 use Carbon\Carbon;
 use App\Adeudo;
-use App\Concepto;
+use App\ConceptoAdeudo as Concepto;
 
 class IngresosCtrl extends Controller
 {
@@ -103,7 +103,7 @@ class IngresosCtrl extends Controller
         $condominio = session()->get('condominio');
         $condominio = $this->condominio->id($condominio->id)->first();
         $meses = config('helper.meses');
-        $conceptos = $this->concepto->tipoAdeudo()->get();
+        $conceptos = $this->concepto->get();
         
         return view('ingresos.pagosMensuales',compact('condominio','anio','meses','mes','conceptos'));
     }
@@ -200,5 +200,38 @@ class IngresosCtrl extends Controller
            ->with('pagos','casa')
            ->find($id);
         return view("ingresos.otros.mensualidades",compact('condominio','anio','otroAdeudo'));
+    }
+    public function guardarPagosMensuales($mes = '',$anio = '',Request $request)
+    {
+        if (!$anio) {
+            $anio = Carbon::now()->year;
+        }
+        if (!$mes) {
+            $mesesIndex = config('helper.mesesIndex');
+            $mes = $mesesIndex[Carbon::now()->month];
+        }
+
+        $condominio = session()->get('condominio');
+        $condominio = $this->condominio->id($condominio->id)->first();
+        $meses = config('helper.meses');
+        $fecha = Carbon::createFromDate($anio,$meses[$mes],1);
+        foreach ($request[$mes] as $casa => $cantidad) {
+            if (isset($cantidad) && $cantidad > 0) {
+                 $pago = Pago::updateOrCreate([
+                    'tipo'          => 'M',
+                    'casa_id'       => $casa, 
+                    'condominio_id' => $condominio->id,
+                    'fecha'         => $fecha->toDateString(), 
+                ],
+                [
+                    'fecha_pago' => Carbon::now()->toDateString(), 
+                    'cantidad'   => $cantidad
+                ]);
+            }
+
+        }
+        return redirect()->back()->with(['message'=>'Acción Realizada correctamente.','type'=>'success']);  
+        
+        //return view('ingresos.pagosMensuales',compact('condominio','anio','meses','mes','conceptos'));
     }
 }

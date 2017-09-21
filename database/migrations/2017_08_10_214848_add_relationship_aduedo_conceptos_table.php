@@ -13,9 +13,9 @@ class AddRelationshipAduedoConceptosTable extends Migration
      */
     public function up()
     {
-        Schema::table('adeudos', function (Blueprint $table) {
-            $table->foreign('concepto_id')->references('id')->on('conceptos');
-        });
+        // Schema::table('adeudos', function (Blueprint $table) {
+        //     $table->foreign('concepto_id')->references('id')->on('conceptos');
+        // });
     }
 
     /**
@@ -25,6 +25,6 @@ class AddRelationshipAduedoConceptosTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
+        // Schema::disableForeignKeyConstraints();
     }
 }

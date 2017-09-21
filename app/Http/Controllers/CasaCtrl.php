@@ -24,7 +24,7 @@ class CasaCtrl extends Controller
     public function editar($id)
     {
     	$casa = $this->casa->id($id)->first();
-		return view('casas.edit',compact('casa'));    	
+		return view('casas.edit',compact('casa'));
     }
     public function actualizar($id, CasaUpdateRequest $request)
     {
@@ -63,7 +63,7 @@ class CasaCtrl extends Controller
     }
     public function guardarExcel(Request $request)
     {
-        for ($i=0; $i < sizeof($request->nombre) ; $i++) { 
+        for ($i=0; $i < sizeof($request->nombre) ; $i++) {
             $pago = Casa::updateOrCreate([
                     'condominio_id' => $request->condominio_id,
                     'nombre'        => $request->nombre[$i]
@@ -82,5 +82,17 @@ class CasaCtrl extends Controller
         }
        return redirect()->route('mostrarCondominio',['id'=>$request->condominio_id])->with(['message'=>'Casas agregadas correctamente','type'=>'success']);
     }
-
+    public function exportarExcel(){
+        $condominio = session()->get('condominio');
+        $casas = $this->casa->condominioId($condominio->id)->get();
+        $excel = \App::make('excel');
+        ob_end_clean();
+        ob_start();
+         Excel::create('Casas de'.$condominio->nombre, function($excel) use ($casas) {
+            $excel->sheet('Casas', function ($sheet) use ($casas) {
+                $sheet->setOrientation('landscape');
+                $sheet->fromArray($casas, NULL,'A1',true,true);
+            });
+        })->download('xls');
+    }
 }

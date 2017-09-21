@@ -13,9 +13,7 @@ class AddRelationshipConceptosTable extends Migration
      */
     public function up()
     {
-        Schema::table('conceptos', function (Blueprint $table) {
-            $table->foreign('condominio_id')->references('id')->on('condominios');
-        });
+      
     }
 
     /**
@@ -25,6 +23,5 @@ class AddRelationshipConceptosTable extends Migration
      */
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
     }
 }

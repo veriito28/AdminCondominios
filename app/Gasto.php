@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
 use App\FechaTrait;
-use App\Concepto;
+use App\ConceptoGasto;
 use DB;
 class Gasto extends Model
 {
@@ -25,7 +25,6 @@ class Gasto extends Model
    	{
    		return $query->where('tipo','E');
    	}
-  
 
     public function scopeCondominioId($query,$id)
     {
@@ -37,6 +36,6 @@ class Gasto extends Model
     }
     public function concepto()
     {
-    	return $this->belongsTo(Concepto::class);
+    	return $this->belongsTo(ConceptoGasto::class);
     }
 }

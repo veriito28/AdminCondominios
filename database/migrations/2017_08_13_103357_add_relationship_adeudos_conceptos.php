@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRelationshipGastosTable extends Migration
+class AddRelationshipAdeudosConceptos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddRelationshipGastosTable extends Migration
      */
     public function up()
     {
-        Schema::table('gastos', function (Blueprint $table) {
-            $table->foreign('condominio_id')->references('id')->on('condominios');
-           // $table->foreign('concepto_id')->references('id')->on('conceptos');
+         Schema::table('adeudos', function (Blueprint $table) {
+            $table->foreign('concepto_id')->references('id')->on('concepto_adeudos');
         });
     }
 

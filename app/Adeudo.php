@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\IdTrait;
 use App\FechaTrait;
 use App\Condominio;
-use App\Concepto;
+use App\ConceptoAdeudo;
 use App\Casa;
 use App\Pago;
 use DB;
@@ -117,6 +117,6 @@ class Adeudo extends Model
   
     public function concepto()
     {
-      return $this->belongsTo(Concepto::class);
+      return $this->belongsTo(ConceptoAdeudo::class);
     }
 }

@@ -5,25 +5,24 @@
 		<div class="ui  column centered grid">
 			<div class="column">
 				<div class="ui segments">
-					<div class="ui green segment"> 
-						<div class="ui right aligned header">
-							<h2>
-								<img src="{{ asset('img/logo.png') }}" alt="" width="150px">
-								<br>
-								Smart Condominios
-							</h2>
-						</div>
-						<h2 class="ui left header pull-left">
+					<div class="ui clearing green segment"> 
+						<h2 class="ui right aligned header">
+							<img src="{{ asset('img/logo.png') }}" alt="" width="150px">
+							<br>
+							Condominios
+						</h2>
+						<h3 class="ui left header pull-left">
 							 <i class="circular folder open icon"></i>
 								Cuentas 
-						</h2>
+						</h3>
+
 						<table class="ui green celled table">
 							<thead >
 								<tr>
 									<th colspan="3">
-										<h3>Todas las Cuentas
+										<h3>
 											<a href="#!" class="nuevoCuenta ui right floated small black icon button">
-												<i class="large icons">
+												<i class=" icons">
 												    <i class="home icon"></i>
 												    <i class="inverted corner add icon"></i>
 												</i>

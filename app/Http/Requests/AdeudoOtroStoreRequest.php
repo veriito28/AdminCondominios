@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AdeudoOtroStoreRequest extends FormRequest
 {
+    protected $errorBag = 'otroAdeudoStore';
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +14,7 @@ class AdeudoOtroStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,10 @@ class AdeudoOtroStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'concepto'      => 'required|max:255',
+            'cantidad'      =>'numeric',
+            'concepto_id'       =>'required|exists:concepto_adeudos,id',
+            'casa_id'       =>'nullable|exists:casas,id',
         ];
     }
 }

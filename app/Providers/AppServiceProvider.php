@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Validator;
 use Hash;
 use Auth;
-use App\Concepto;
+use App\ConceptoAdeudo as Concepto;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
             return Hash::check($value, Auth::user()->password);
         });
         Validator::extend('unique_concepto', function($attribute, $value, $parameters, $validator) {
-            if (Concepto::slugNombre(str_slug($value))->first()) {
+            if (Concepto::slugNombre(str_slug($value))->condominioId($parameters[0])->first()) {
                 return false;
             }
             return true;
