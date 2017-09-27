@@ -111,16 +111,20 @@
 		{
 			return Request::is(str_replace(url('/').'/','',$ruta));
 		}
-
-		$conceptos = session()->get('condominio')->conceptosAdeudos;
 		$opcionesIngresos = [];
+		if(session()->has('condominio'))
+		{
+		$conceptos = session()->get('condominio')->conceptosAdeudos;
+		
 		foreach ($conceptos as $concepto){
 			if ($concepto->tipo == 'M'){
 				array_push($opcionesIngresos, ['nombre'=> $concepto->nombre,'ruta' => route('pagos',['tipo'=>$concepto->slug_nombre])]);
 			}
 		}
+		
 		array_push($opcionesIngresos,['nombre'=> 'Otros Pagos','ruta' => route('otrosPagos')]);
 		array_push($opcionesIngresos,['nombre'=> 'Ingresos Ext.','ruta' => route('ingresosExtraordinarios')]);
+		}
 
 		$menus = [
 			[
@@ -138,8 +142,8 @@
 				'nombre' => 'Condominio',
 				'icono'  => 'building outline',
 				'opciones' => [
-					['nombre' => 'Editar', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado->id])],
-					['nombre' => 'Mis Cuentas', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado->id])],
+					['nombre' => 'Editar', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado['id']])],
+					['nombre' => 'Mis Cuentas', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado['id']])],
 				]
 			],
 			[
