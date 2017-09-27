@@ -64,37 +64,6 @@
 			@endif
 			<div class="menu right">
 				@if (!Auth::guest())
-					<!--
-					<a href="{{ route('mostrarCuentas') }}" class="item item-hover">
-						<i class="credit card alternative icon"></i>
-						<span class="btn-title">
-							Cuentas
-						</span>
-					</a>
-
-					<a href="{{ route('mostrarConceptos') }}" class="item item-hover">
-						<i class="book icon"></i>
-						<span class="btn-title">
-							Conceptos
-						</span>
-					</a>
-					<a  class="cambiarContrasenia item item-hover">
-						<i class="privacy  icon"></i>
-						<span class="btn-title">
-							Cambiar Contraseña
-						</span>
-					</a>
-					<a href="{{ route('logout') }}" class="item item-hover">
-						<i class="reply icon"></i>
-						<span class="btn-title">
-							Cerrar Sesíon
-						</span>
-					</a>
-					<p class="item">
-						<i class="user icon"></i>
-						{{Auth::user()->nombre}}
-					</p>
-					-->
 					<div class="ui right dropdown item">
 						<i class="user icon"></i>
 						{{Auth::user()->nombre}}

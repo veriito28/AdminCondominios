@@ -33,7 +33,7 @@
 												</div>
 											</div>
 											@if (!$condominio->pivot->seleccionado)
-												<a href="{{ route('seleccionarCondominio',['id_condominio'=>$condominio->id]) }}" class="ui bottom attached green button">
+												<a href="{{ route('seleccionarCondominio',['id_condominio'=>$condominio->id]) }}" class="ui bottom attached blue button">
 													Seleccionar
 											      	<i class="sign in right icon"></i>
 											    </a>

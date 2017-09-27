@@ -35,15 +35,7 @@
 												        </i>
 											     	Exportar
 												</a>
-
 											</span>
-											<a href="#!" class="nuevaCasa ui right floated black icon button">
-												<i class=" icons">
-												    <i class="home icon"></i>
-												    <i class="inverted corner add icon"></i>
-												</i>
-												Agregar Casa
-											</a>
 										</h3>
 									</th>
 								</tr>
