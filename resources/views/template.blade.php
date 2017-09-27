@@ -75,13 +75,6 @@
 							Cuentas para depósito
 						</span>
 					</a>
-
-					<a href="{{ route('mostrarConceptos') }}" class="item">
-						<i class="book icon"></i>
-						<span class="btn-title">
-							Conceptos
-						</span>
-					</a>
 					<a  class="cambiarContrasenia item">
 						<i class="unlock icon"></i>
 						<span class="btn-title">
@@ -124,9 +117,9 @@
 				array_push($opcionesIngresos, ['nombre'=> $concepto->nombre,'ruta' => route('pagos',['tipo'=>$concepto->slug_nombre])]);
 			}
 		}
-		
-		array_push($opcionesIngresos,['nombre'=> 'Otros Pagos','ruta' => route('otrosPagos')]);
-		array_push($opcionesIngresos,['nombre'=> 'Ingresos Ext.','ruta' => route('ingresosExtraordinarios')]);
+		array_push($opcionesIngresos,['nombre' => 'Ordinarios', 'ruta' => route('adeudosMensuales')]);
+		array_push($opcionesIngresos,['nombre'=> 'Extraordinarios','ruta' => route('ingresosExtraordinarios')]);
+		array_push($opcionesIngresos,['nombre' => 'Conceptos', 'ruta' => route('mostrarConceptosAdeudos')]);
 		}
 
 		$menus = [
@@ -153,16 +146,6 @@
 					['nombre' => 'Ordinarios', 'ruta' => route('gastosOrdinarios')],
 					['nombre' => 'Extraordinarios', 'ruta' => route('gastosExtraordinarios')],
 					['nombre' => 'Conceptos', 'ruta' => route('mostrarConceptosGastos')],
-				]
-			],
-			[
-				'nombre' => 'ADEUDOS',
-				'icono'  => 'icons',
-				'iconoComplemento'=> '<i class="dollar icon"></i><i class="corner inverted alarm icon"></i>',
-				'opciones' => [
-					['nombre' => 'Mensuales', 'ruta' => route('adeudosMensuales')],
-					['nombre' => 'Otros', 'ruta' => route('otrosAdeudos')],
-					['nombre' => 'Conceptos', 'ruta' => route('mostrarConceptosAdeudos')],
 				]
 			],
 			[
