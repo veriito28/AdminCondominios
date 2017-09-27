@@ -15,11 +15,11 @@
 								@foreach ($condominios as $condominio)
 									<div class="ui column card">
 											@if ($condominio->pivot->seleccionado)
-												<div class="ui black ribbon label">
+												<div class="ui green ribbon label">
 													<i class="building icon"></i> Seleccionado
 												</div>
 											@else
-												<div class="ui blue ribbon label">
+												<div class="ui black ribbon label">
 												        <i class="building icon"></i> Condominio
 											      </div>
 											@endif
@@ -34,13 +34,13 @@
 											</div>
 											@if (!$condominio->pivot->seleccionado)
 												<a href="{{ route('seleccionarCondominio',['id_condominio'=>$condominio->id]) }}" class="ui bottom attached green button">
-													Administrar
-											      	<i class="arrow circle right icon"></i>
+													Seleccionar
+											      	<i class="sign in right icon"></i>
 											    </a>
 											@else
 											    <a href="{{ route('mostrarCondominio',[ 'id' => $condominio->id]) }}" class="ui bottom attached green button">
-													Seleccionar
-											      	<i class="configure  right icon"></i>
+													Administrar
+											      	<i class="configure right icon"></i>
 											    </a>
 											@endif
 											 <a id="removerElemento{{$condominio->id}}" class="ui bottom attached red button">

@@ -322,3 +322,7 @@ body{
 .ui.vertical.menu .item .text{
     font-size: 12px;
 }
+/* Añadido por dhartaros */
+.seleccionado {
+    background-color: #21BA45 !important;
+}

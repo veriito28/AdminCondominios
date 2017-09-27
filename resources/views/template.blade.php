@@ -57,13 +57,14 @@
 					</div>
 				</div>
 				@if ($seleccionado)
-					<a href="{{ route('mostrarCondominio',['id_condominio'=>$seleccionado->id]) }}" class="item">
+					<a href="{{ route('mostrarCondominio',['id_condominio'=>$seleccionado->id]) }}" class="item seleccionado">
 						<i class="building outline icon"></i>{{$seleccionado->nombre}}
 					</a>
 				@endif
 			@endif
 			<div class="menu right">
 				@if (!Auth::guest())
+					<!--
 					<a href="{{ route('mostrarCuentas') }}" class="item item-hover">
 						<i class="credit card alternative icon"></i>
 						<span class="btn-title">
@@ -93,6 +94,39 @@
 						<i class="user icon"></i>
 						{{Auth::user()->nombre}}
 					</p>
+					-->
+					<div class="ui right dropdown item">
+						<i class="user icon"></i>
+						{{Auth::user()->nombre}}
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<<a href="{{ route('mostrarCuentas') }}" class="item">
+						<i class="credit card alternative icon"></i>
+						<span class="btn-title">
+							Cuentas para depósito
+						</span>
+					</a>
+
+					<a href="{{ route('mostrarConceptos') }}" class="item">
+						<i class="book icon"></i>
+						<span class="btn-title">
+							Conceptos
+						</span>
+					</a>
+					<a  class="cambiarContrasenia item">
+						<i class="unlock icon"></i>
+						<span class="btn-title">
+							Cambiar Contraseña
+						</span>
+					</a>
+					<a href="{{ route('logout') }}" class="item">
+						<i class="sign out icon"></i>
+						<span class="btn-title">
+							Cerrar Sesíon
+						</span>
+					</a>
+						</div>
+					</div>
 				@endif
 			</div>
 		</div>
@@ -128,22 +162,12 @@
 
 		$menus = [
 			[
-				'nombre' => 'Usuario',
-				'icono'  => 'user',
-				'opciones' => [
-					['nombre' => 'Mis Condominios', 'ruta' => route('bienvenido')],
-					['nombre' => 'Mis Cuentas', 'ruta' => route('mostrarCuentas')],
-					['nombre' => 'Cambiar Contraseña','clase'=> 'cambiarContrasenia'],
-					['nombre' => 'Cerrar Sesíon', 'ruta' => route('logout')]
-					
-				]
-			],
-			[
-				'nombre' => 'Condominio',
+				'nombre' => 'Condominios',
 				'icono'  => 'building outline',
 				'opciones' => [
-					['nombre' => 'Editar', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado['id']])],
-					['nombre' => 'Mis Cuentas', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado['id']])],
+					['nombre' => 'Mis Condominios', 'ruta' => route('bienvenido')],
+					['nombre' => 'Casas', 'ruta' => route('mostrarCondominio',['id_condominio'=>$seleccionado['id']])],
+					['nombre' => 'Editar', 'ruta' => route('editarCondominio',['id_condominio'=>$seleccionado['id']])]
 				]
 			],
 			[
